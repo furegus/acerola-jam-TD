@@ -1,0 +1,59 @@
+[gd_scene load_steps=8 format=3 uid="uid://bbjef40wmmemi"]
+
+[ext_resource type="Script" path="res://Scenes/Abilities/projectiles/knife_throw.gd" id="1_cwhl6"]
+[ext_resource type="PackedScene" uid="uid://cdr8y2i1itx1" path="res://Scenes/projectile.tscn" id="2_5uy8a"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b1nbh"]
+shading_mode = 0
+albedo_color = Color(0.270588, 0.25098, 0.235294, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_dp7ym"]
+top_radius = 0.025
+bottom_radius = 0.013
+height = 0.2
+cap_top = false
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_n0vfw"]
+top_radius = 0.013
+bottom_radius = 0.0
+height = 0.1
+cap_top = false
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5nwag"]
+shading_mode = 0
+albedo_color = Color(0.807843, 0.788235, 0.772549, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_en7bu"]
+top_radius = 0.0
+bottom_radius = 0.05
+height = 0.3
+cap_top = false
+
+[node name="KnifeThrow" type="Node"]
+script = ExtResource("1_cwhl6")
+projectile = ExtResource("2_5uy8a")
+
+[node name="Mesh" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Mesh"]
+transform = Transform3D(0.5, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0.106596)
+material_override = SubResource("StandardMaterial3D_b1nbh")
+mesh = SubResource("CylinderMesh_dp7ym")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Mesh/MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.09, 0.06)
+material_override = SubResource("StandardMaterial3D_b1nbh")
+mesh = SubResource("CylinderMesh_n0vfw")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Mesh/MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.09, -0.06)
+material_override = SubResource("StandardMaterial3D_b1nbh")
+mesh = SubResource("CylinderMesh_n0vfw")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Mesh/MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 1.09278e-08)
+material_override = SubResource("StandardMaterial3D_5nwag")
+mesh = SubResource("CylinderMesh_en7bu")
+skeleton = NodePath("../..")

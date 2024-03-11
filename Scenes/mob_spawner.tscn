@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://c5nqukdhntbao"]
+
+[ext_resource type="Shader" path="res://Shaders/glow_outline.gdshader" id="1_5ai0t"]
+[ext_resource type="Script" path="res://Scripts/mob_spawner.gd" id="1_gbs3f"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4ifku"]
+render_priority = 0
+shader = ExtResource("1_5ai0t")
+shader_parameter/scale = Vector3(0.99, 0.99, 0.99)
+shader_parameter/width = 0.025
+shader_parameter/sharpness = 0.5
+shader_parameter/glow = 6.865
+shader_parameter/color = Color(0.364706, 0, 0.627451, 0.431373)
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_45kgg"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vpjy8"]
+size = Vector3(4, 4, 4)
+
+[node name="MobSpawner" type="Node3D"]
+script = ExtResource("1_gbs3f")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+material_override = SubResource("ShaderMaterial_4ifku")
+mesh = SubResource("BoxMesh_45kgg")
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 16
+collision_mask = 0
+monitoring = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_vpjy8")

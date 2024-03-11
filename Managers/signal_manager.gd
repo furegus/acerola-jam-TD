@@ -1,0 +1,19 @@
+extends Node
+
+signal combatant_placement_start
+signal combatant_placement_end
+
+signal add_base_to_list
+signal add_spawner_to_list
+signal update_mob_count
+signal update_base
+
+signal update_coins
+signal wave_started
+signal wave_changed
+signal wave_timer_changed
+
+signal show_game_over
+signal show_pause_menu
+signal restart_level
+signal goto_main_menu

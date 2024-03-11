@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://kohokhpsvdpr"]
+
+[ext_resource type="Script" path="res://Scripts/pan_camera.gd" id="1_serse"]
+
+[node name="pan_camera" type="SpringArm3D"]
+transform = Transform3D(1, 0, 0, 0, 0.819152, 0.573577, 0, -0.573577, 0.819152, 0, 0, 0)
+spring_length = 15.0
+script = ExtResource("1_serse")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+fov = 60.0

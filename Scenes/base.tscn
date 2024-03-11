@@ -1,0 +1,135 @@
+[gd_scene load_steps=13 format=3 uid="uid://c00ubidmbk23g"]
+
+[ext_resource type="PackedScene" uid="uid://ihike5ett1pr" path="res://Scenes/hitbox_component.tscn" id="1_6tk0k"]
+[ext_resource type="Script" path="res://Scripts/base.gd" id="1_vyi7v"]
+[ext_resource type="PackedScene" uid="uid://d10prpr1ybrpr" path="res://Scenes/health_component.tscn" id="2_wqfq6"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dgxmn"]
+albedo_color = Color(0.745581, 0.74558, 0.74558, 1)
+roughness = 0.33
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_pfamj"]
+top_radius = 1.2
+bottom_radius = 1.2
+height = 1.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_fi2pe"]
+radius = 0.7
+height = 1.4
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_lsecd"]
+top_radius = 0.9
+bottom_radius = 1.2
+height = 0.25
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v3k26"]
+emission_enabled = true
+emission = Color(0.25098, 0.862745, 1, 1)
+emission_energy_multiplier = 8.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_env0u"]
+size = Vector3(2.5, 3.1, 2.5)
+
+[sub_resource type="Animation" id="Animation_s4iqu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D/Ball:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 1.7, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_82oaa"]
+resource_name = "hover"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D/Ball:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 1, 1.2, 1.8, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 1.7, 0), Vector3(0, 1.69, 0), Vector3(0, 1.5, 0), Vector3(0, 1.5, 0), Vector3(0, 1.69, 0), Vector3(0, 1.7, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ywtnh"]
+_data = {
+"RESET": SubResource("Animation_s4iqu"),
+"hover": SubResource("Animation_82oaa")
+}
+
+[node name="Base" type="Node3D"]
+script = ExtResource("1_vyi7v")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+material_override = SubResource("StandardMaterial3D_dgxmn")
+mesh = SubResource("CylinderMesh_pfamj")
+
+[node name="Ball" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
+material_override = SubResource("StandardMaterial3D_dgxmn")
+mesh = SubResource("SphereMesh_fi2pe")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+material_override = SubResource("StandardMaterial3D_dgxmn")
+mesh = SubResource("CylinderMesh_lsecd")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+radius = 0.9
+height = 0.2
+sides = 32
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="MeshInstance3D/CSGCylinder3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+operation = 2
+radius = 0.9
+radial_segments = 24
+rings = 12
+material = SubResource("StandardMaterial3D_v3k26")
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
+radius = 0.9
+height = 0.2
+sides = 32
+
+[node name="CSGCylinder3D3" type="CSGCylinder3D" parent="MeshInstance3D/CSGCylinder3D2"]
+operation = 2
+radius = 0.8
+height = 0.2
+sides = 32
+material = SubResource("StandardMaterial3D_v3k26")
+
+[node name="HitboxComponent" parent="." node_paths=PackedStringArray("healthComponent") instance=ExtResource("1_6tk0k")]
+collision_mask = 4
+healthComponent = NodePath("../HealthComponent")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HitboxComponent"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.55, 0)
+shape = SubResource("BoxShape3D_env0u")
+
+[node name="HealthComponent" parent="." instance=ExtResource("2_wqfq6")]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_ywtnh")
+}
+
+[node name="MovingTimer" type="Timer" parent="."]
+wait_time = 2.0
+
+[connection signal="body_entered" from="HitboxComponent" to="." method="_on_hitbox_component_body_entered"]
+[connection signal="timeout" from="MovingTimer" to="." method="_on_moving_timer_timeout"]

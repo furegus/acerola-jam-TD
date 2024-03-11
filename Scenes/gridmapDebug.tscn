@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://dla6ihkuei8k4"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h5s57"]
+no_depth_test = true
+albedo_color = Color(0.596078, 0.596078, 0.596078, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_v44e0"]
+material = SubResource("StandardMaterial3D_h5s57")
+size = Vector3(0.2, 0.2, 0.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_acrrn"]
+no_depth_test = true
+albedo_color = Color(1, 0.0117647, 0.0117647, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_dg1mr"]
+material = SubResource("StandardMaterial3D_acrrn")
+size = Vector3(0.2, 0.2, 0.2)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="walkable" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_v44e0")
+
+[node name="blocked" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_dg1mr")

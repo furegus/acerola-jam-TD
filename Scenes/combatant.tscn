@@ -1,0 +1,68 @@
+[gd_scene load_steps=8 format=3 uid="uid://4m3012qcw12n"]
+
+[ext_resource type="Script" path="res://Scripts/combatant.gd" id="1_i776r"]
+[ext_resource type="Resource" uid="uid://tyc5d36b3lca" path="res://Scenes/Combatants/sniper.tres" id="2_dlxa5"]
+[ext_resource type="Texture2D" uid="uid://dimk7j76n3a0y" path="res://Assets/2d/test/alienBeige.png" id="3_ooaif"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1m4ip"]
+radius = 0.4
+height = 1.4
+
+[sub_resource type="SphereMesh" id="SphereMesh_85peb"]
+radius = 0.2
+height = 0.4
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wtg2m"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+albedo_color = Color(0.352941, 0.352941, 0.352941, 0.615686)
+
+[sub_resource type="SphereMesh" id="SphereMesh_o4qpt"]
+radius = 3.0
+height = 6.0
+
+[node name="Combatant" type="CharacterBody3D"]
+collision_layer = 2
+script = ExtResource("1_i776r")
+class_ID = ExtResource("2_dlxa5")
+
+[node name="Abilities" type="Node3D" parent="."]
+
+[node name="Main" type="Node3D" parent="Abilities"]
+
+[node name="Special" type="Node3D" parent="Abilities"]
+
+[node name="Buff" type="Node3D" parent="."]
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 2.23517e-08, 0)
+cast_shadow = 0
+offset = Vector2(0, 43.33)
+billboard = 1
+no_depth_test = true
+texture = ExtResource("3_ooaif")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+shape = SubResource("CapsuleShape3D_1m4ip")
+disabled = true
+
+[node name="Shadow" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.109435, 0)
+cast_shadow = 3
+mesh = SubResource("SphereMesh_85peb")
+
+[node name="AttackRange" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 4
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AttackRange"]
+
+[node name="RangeDebug" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_wtg2m")
+mesh = SubResource("SphereMesh_o4qpt")
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

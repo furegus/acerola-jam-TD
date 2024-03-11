@@ -1,0 +1,59 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[addons]
+
+resources_spreadsheet_view/array_color_tint=100.0
+resources_spreadsheet_view/color_rows=true
+resources_spreadsheet_view/array_min_width=128.0
+resources_spreadsheet_view/resource_preview_size=32.0
+resources_spreadsheet_view/clip_headers=false
+resources_spreadsheet_view/dupe_arrays=true
+resources_spreadsheet_view/context_menu_on_leftclick=false
+
+[application]
+
+config/name="tower_defence_acerola"
+run/main_scene="res://UI/main_menu.tscn"
+config/features=PackedStringArray("4.3", "Forward Plus")
+config/icon="res://icon.svg"
+
+[autoload]
+
+GameManager="*res://Managers/game_manager.gd"
+SignalManager="*res://Managers/signal_manager.gd"
+
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/stretch/mode="canvas_items"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/anthonyec.camera_preview/plugin.cfg", "res://addons/resources_spreadsheet_view/plugin.cfg")
+
+[gui]
+
+theme/custom_font="res://Assets/Fonts/Inter/Inter-Regular.ttf"
+theme/default_font_hinting=2
+
+[layer_names]
+
+3d_physics/layer_1="World"
+3d_physics/layer_2="Combatant"
+3d_physics/layer_3="Mob"
+3d_physics/layer_4="Tower"
+3d_physics/layer_5="NoTile"
+
+[rendering]
+
+anti_aliasing/quality/use_taa=true
+anti_aliasing/quality/use_debanding=true

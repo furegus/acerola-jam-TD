@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Combatant" load_steps=4 format=3 uid="uid://tyc5d36b3lca"]
+
+[ext_resource type="PackedScene" uid="uid://bbjef40wmmemi" path="res://Scenes/Abilities/projectiles/knife_throw.tscn" id="1_2b2dj"]
+[ext_resource type="Script" path="res://Scripts/combatant_class.gd" id="1_63w5d"]
+[ext_resource type="Texture2D" uid="uid://dimk7j76n3a0y" path="res://Assets/2d/test/alienBeige.png" id="2_4lkls"]
+
+[resource]
+script = ExtResource("1_63w5d")
+name = "Rogue"
+sprite = ExtResource("2_4lkls")
+description = "Shoots knives at closest target in range."
+cost = 100
+damage = 2
+range = 3
+speed = 3
+mainAbility = ExtResource("1_2b2dj")
+specialAbility = &""

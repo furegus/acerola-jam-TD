@@ -1,0 +1,368 @@
+[gd_scene load_steps=23 format=3 uid="uid://b384lgv14bfl5"]
+
+[ext_resource type="Script" path="res://UI/hud.gd" id="1_xfe5e"]
+[ext_resource type="Shader" path="res://Shaders/chromatic_abb.gdshader" id="2_3xt0x"]
+[ext_resource type="Shader" path="res://Shaders/tilt_shift.gdshader" id="2_4np82"]
+[ext_resource type="Shader" path="res://Shaders/vignette.gdshader" id="2_jxrj8"]
+[ext_resource type="FontFile" uid="uid://qbcejxbpnuct" path="res://Assets/Fonts/Inter/Inter-Black.ttf" id="4_limqi"]
+[ext_resource type="PackedScene" uid="uid://dyq6nlob3vhpy" path="res://UI/Combatantbutton.tscn" id="5_d3umv"]
+[ext_resource type="Resource" uid="uid://tyc5d36b3lca" path="res://Scenes/Combatants/sniper.tres" id="6_0rfgy"]
+[ext_resource type="FontFile" uid="uid://vah0lvxfx57l" path="res://Assets/Fonts/Inter/Inter-Light.ttf" id="6_glyoy"]
+[ext_resource type="Texture2D" uid="uid://dimk7j76n3a0y" path="res://Assets/2d/test/alienBeige.png" id="6_obg7e"]
+[ext_resource type="FontFile" uid="uid://lsrixbl248vw" path="res://Assets/Fonts/Inter/Inter-Bold.ttf" id="7_0s7j0"]
+[ext_resource type="Resource" uid="uid://bopyu4rl3grj4" path="res://Scenes/Combatants/bomber.tres" id="7_d5208"]
+[ext_resource type="Texture2D" uid="uid://dq280i8m4x47m" path="res://Assets/2d/test/alienBlue.png" id="8_hssk2"]
+[ext_resource type="Texture2D" uid="uid://btskoqra4e2ce" path="res://Assets/icons/pause.png" id="11_q0phm"]
+[ext_resource type="Texture2D" uid="uid://dp34tthjh2m4o" path="res://Assets/icons/Play.png" id="14_5ntcd"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wjfk4"]
+shader = ExtResource("2_3xt0x")
+shader_parameter/aberration = 4.75e-08
+shader_parameter/vignette_intensity = 0.0
+shader_parameter/vignette_opacity = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2s2fc"]
+shader = ExtResource("2_4np82")
+shader_parameter/limit = 0.3
+shader_parameter/blur = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7i7aw"]
+shader = ExtResource("2_jxrj8")
+shader_parameter/vignette_intensity = 0.25
+shader_parameter/vignette_opacity = 0.15
+shader_parameter/vignette_rgb = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2f2cu"]
+bg_color = Color(0.152941, 0.152941, 0.152941, 0.180392)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8e7m8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uw63g"]
+bg_color = Color(0.2484, 0.2484, 0.2484, 0.835294)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rf0gm"]
+bg_color = Color(0.690196, 0.690196, 0.690196, 0.560784)
+border_width_left = 1
+border_width_top = 4
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hsyvc"]
+bg_color = Color(0.690196, 0.690196, 0.690196, 0.560784)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="HUD" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_xfe5e")
+metadata/_edit_horizontal_guides_ = [49.0, 7.0]
+
+[node name="chroma_abb" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_wjfk4")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="BackBufferCopy" type="BackBufferCopy" parent="."]
+copy_mode = 2
+
+[node name="tilt-shift blur" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_2s2fc")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="vignette" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_7i7aw")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="CombatantPanel" type="Panel" parent="."]
+clip_contents = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.149219
+anchor_top = 0.890278
+anchor_right = 0.850781
+anchor_bottom = 0.977778
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_2f2cu")
+metadata/_edit_use_anchors_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="CombatantPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CombatantPanel/MarginContainer"]
+layout_mode = 2
+
+[node name="Sniper" parent="CombatantPanel/MarginContainer/HBoxContainer" instance=ExtResource("5_d3umv")]
+layout_mode = 2
+icon = ExtResource("6_obg7e")
+class_ID = ExtResource("6_0rfgy")
+
+[node name="Comber" parent="CombatantPanel/MarginContainer/HBoxContainer" instance=ExtResource("5_d3umv")]
+layout_mode = 2
+icon = ExtResource("8_hssk2")
+class_ID = ExtResource("7_d5208")
+
+[node name="CoinPanel" type="Panel" parent="."]
+auto_translate_mode = 1
+clip_contents = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0179687
+anchor_top = 0.890278
+anchor_right = 0.1375
+anchor_bottom = 0.977778
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_2f2cu")
+metadata/_edit_use_anchors_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="CoinPanel"]
+auto_translate_mode = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CoinPanel/MarginContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+alignment = 1
+
+[node name="coins" type="Label" parent="CoinPanel/MarginContainer/HBoxContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_fonts/font = ExtResource("7_0s7j0")
+text = "123"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 7.0
+offset_right = 332.0
+offset_bottom = 153.0
+
+[node name="RoundInfo" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="VBoxContainer/RoundInfo"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(1, 1, 1, 0.65098)
+theme_override_font_sizes/font_size = 32
+text = " Wave - "
+vertical_alignment = 2
+
+[node name="Count" type="Label" parent="VBoxContainer/RoundInfo"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("4_limqi")
+theme_override_font_sizes/font_size = 40
+text = "1"
+vertical_alignment = 2
+
+[node name="slash" type="Label" parent="VBoxContainer/RoundInfo"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0.733333, 0.733333, 0.733333, 1)
+theme_override_fonts/font = ExtResource("7_0s7j0")
+theme_override_font_sizes/font_size = 20
+text = " /"
+vertical_alignment = 1
+
+[node name="max" type="Label" parent="VBoxContainer/RoundInfo"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0.733333, 0.733333, 0.733333, 1)
+theme_override_fonts/font = ExtResource("7_0s7j0")
+theme_override_font_sizes/font_size = 20
+text = "13"
+vertical_alignment = 1
+
+[node name="NextRound" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_constants/separation = -5
+
+[node name="Label" type="Label" parent="VBoxContainer/NextRound"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(1, 1, 1, 0.705882)
+theme_override_fonts/font = ExtResource("6_glyoy")
+theme_override_font_sizes/font_size = 20
+text = "- Next wave in - "
+vertical_alignment = 2
+
+[node name="Label3" type="Label" parent="VBoxContainer/NextRound"]
+visible = false
+layout_mode = 2
+theme_override_fonts/font = ExtResource("7_0s7j0")
+theme_override_font_sizes/font_size = 28
+text = "s"
+vertical_alignment = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/NextRound"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="space" type="Label" parent="VBoxContainer/NextRound/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("7_0s7j0")
+theme_override_font_sizes/font_size = 24
+text = "     "
+vertical_alignment = 2
+
+[node name="time" type="Label" parent="VBoxContainer/NextRound/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("7_0s7j0")
+theme_override_font_sizes/font_size = 24
+text = "00:01"
+vertical_alignment = 2
+
+[node name="EnemiesLeft" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="VBoxContainer/EnemiesLeft"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.705882)
+theme_override_fonts/font = ExtResource("6_glyoy")
+theme_override_font_sizes/font_size = 20
+text = "- Enemies remaining -"
+vertical_alignment = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/EnemiesLeft"]
+layout_mode = 2
+size_flags_vertical = 4
+alignment = 1
+
+[node name="current" type="Label" parent="VBoxContainer/EnemiesLeft/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("7_0s7j0")
+theme_override_font_sizes/font_size = 24
+text = "1"
+vertical_alignment = 2
+
+[node name="slash" type="Label" parent="VBoxContainer/EnemiesLeft/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.733333, 0.733333, 0.733333, 1)
+theme_override_fonts/font = ExtResource("7_0s7j0")
+theme_override_font_sizes/font_size = 20
+text = "/"
+vertical_alignment = 2
+
+[node name="max" type="Label" parent="VBoxContainer/EnemiesLeft/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.733333, 0.733333, 0.733333, 1)
+theme_override_fonts/font = ExtResource("7_0s7j0")
+theme_override_font_sizes/font_size = 20
+text = "30"
+vertical_alignment = 2
+
+[node name="PauseButton" type="Button" parent="."]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.953906
+anchor_top = 0.00555556
+anchor_right = 0.991406
+anchor_bottom = 0.0722222
+grow_horizontal = 0
+focus_mode = 0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_8e7m8")
+theme_override_styles/hover = SubResource("StyleBoxFlat_uw63g")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_rf0gm")
+theme_override_styles/normal = SubResource("StyleBoxFlat_hsyvc")
+icon = ExtResource("11_q0phm")
+icon_alignment = 1
+expand_icon = true
+metadata/_edit_use_anchors_ = true
+
+[node name="NextButton" type="Button" parent="."]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.909375
+anchor_top = 0.00555556
+anchor_right = 0.946875
+anchor_bottom = 0.0722222
+grow_horizontal = 0
+focus_mode = 0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_8e7m8")
+theme_override_styles/hover = SubResource("StyleBoxFlat_uw63g")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_rf0gm")
+theme_override_styles/normal = SubResource("StyleBoxFlat_hsyvc")
+icon = ExtResource("14_5ntcd")
+icon_alignment = 1
+expand_icon = true
+metadata/_edit_use_anchors_ = true
+
+[connection signal="pressed" from="PauseButton" to="." method="_on_pause_button_pressed"]
+[connection signal="pressed" from="NextButton" to="." method="_on_next_button_pressed"]

@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3 uid="uid://b05fwsdj201ie"]
+
+[ext_resource type="Script" path="res://Scripts/mob.gd" id="1_lkl2a"]
+[ext_resource type="Texture2D" uid="uid://ch2b43nr2sodv" path="res://Assets/2d/test/bat.png" id="2_1q0n7"]
+[ext_resource type="PackedScene" uid="uid://d10prpr1ybrpr" path="res://Scenes/health_component.tscn" id="3_lcwps"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1m4ip"]
+radius = 0.4
+height = 1.4
+
+[sub_resource type="SphereMesh" id="SphereMesh_1y5bk"]
+radius = 0.15
+height = 0.3
+
+[node name="Mob" type="CharacterBody3D"]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_lkl2a")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 2.23517e-08, 0)
+offset = Vector2(0, 43.33)
+billboard = 1
+texture_filter = 2
+texture = ExtResource("2_1q0n7")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+shape = SubResource("CapsuleShape3D_1m4ip")
+
+[node name="Shadow" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.109435, 0)
+cast_shadow = 3
+mesh = SubResource("SphereMesh_1y5bk")
+
+[node name="HealthComponent" parent="." instance=ExtResource("3_lcwps")]
+max_health = 1

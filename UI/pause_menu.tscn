@@ -1,0 +1,116 @@
+[gd_scene load_steps=8 format=3 uid="uid://cq32darfh7sre"]
+
+[ext_resource type="Script" path="res://UI/pause_menu.gd" id="1_fsyos"]
+[ext_resource type="Shader" path="res://Shaders/color_curves.gdshader" id="2_rdocu"]
+[ext_resource type="Shader" path="res://Shaders/vignette.gdshader" id="3_an5dp"]
+[ext_resource type="FontFile" uid="uid://qbcejxbpnuct" path="res://Assets/Fonts/Inter/Inter-Black.ttf" id="4_megkn"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xa45j"]
+shader = ExtResource("2_rdocu")
+shader_parameter/saturation = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2eyx0"]
+shader = ExtResource("2_rdocu")
+shader_parameter/saturation = 0.6
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wl1db"]
+shader = ExtResource("3_an5dp")
+shader_parameter/vignette_intensity = 0.4
+shader_parameter/vignette_opacity = 0.5
+shader_parameter/vignette_rgb = Color(0, 0, 0, 1)
+
+[node name="Pause Menu" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fsyos")
+
+[node name="BackBufferCopy" type="BackBufferCopy" parent="."]
+material = SubResource("ShaderMaterial_xa45j")
+copy_mode = 2
+
+[node name="Desat" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_2eyx0")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Vignette" type="ColorRect" parent="."]
+auto_translate_mode = 1
+material = SubResource("ShaderMaterial_wl1db")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 404.0
+offset_top = 155.0
+offset_right = -403.0
+offset_bottom = -155.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 36
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_megkn")
+theme_override_font_sizes/font_size = 48
+text = "PAUSED"
+horizontal_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 64
+theme_override_constants/margin_right = 64
+
+[node name="HBoxContainer" type="VBoxContainer" parent="VBoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="resume" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+auto_translate_mode = 1
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("4_megkn")
+text = "RESUME"
+
+[node name="restart" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("4_megkn")
+text = "RESTART"
+
+[node name="menu" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+auto_translate_mode = 1
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("4_megkn")
+text = "MAIN MENU"
+
+[connection signal="pressed" from="VBoxContainer/MarginContainer/HBoxContainer/resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="VBoxContainer/MarginContainer/HBoxContainer/restart" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="VBoxContainer/MarginContainer/HBoxContainer/menu" to="." method="_on_menu_pressed"]

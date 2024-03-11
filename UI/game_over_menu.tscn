@@ -1,0 +1,103 @@
+[gd_scene load_steps=8 format=3 uid="uid://b5fxipldjoap2"]
+
+[ext_resource type="Script" path="res://UI/game_over_menu.gd" id="1_jxfay"]
+[ext_resource type="Shader" path="res://Shaders/color_curves.gdshader" id="1_t8ky3"]
+[ext_resource type="Shader" path="res://Shaders/vignette.gdshader" id="3_k522i"]
+[ext_resource type="FontFile" uid="uid://qbcejxbpnuct" path="res://Assets/Fonts/Inter/Inter-Black.ttf" id="4_2bhhw"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xa45j"]
+shader = ExtResource("1_t8ky3")
+shader_parameter/saturation = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ale62"]
+shader = ExtResource("1_t8ky3")
+shader_parameter/saturation = 0.435
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_w5pep"]
+shader = ExtResource("3_k522i")
+shader_parameter/vignette_intensity = 0.4
+shader_parameter/vignette_opacity = 1.0
+shader_parameter/vignette_rgb = Color(0, 0, 0, 1)
+
+[node name="GameOverMenu" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_jxfay")
+
+[node name="BackBufferCopy" type="BackBufferCopy" parent="."]
+material = SubResource("ShaderMaterial_xa45j")
+copy_mode = 2
+
+[node name="Desat" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_ale62")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="BackBufferCopy2" type="BackBufferCopy" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_xa45j")
+copy_mode = 2
+
+[node name="Vignette" type="ColorRect" parent="."]
+auto_translate_mode = 1
+material = SubResource("ShaderMaterial_w5pep")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 404.0
+offset_top = 155.0
+offset_right = -403.0
+offset_bottom = -155.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 36
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_2bhhw")
+theme_override_font_sizes/font_size = 48
+text = "GAME OVER"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 64
+alignment = 1
+
+[node name="restart" type="Button" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("4_2bhhw")
+text = "RESTART"
+
+[node name="menu" type="Button" parent="VBoxContainer/HBoxContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("4_2bhhw")
+text = "MAIN MENU"
+
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/restart" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/menu" to="." method="_on_menu_pressed"]
