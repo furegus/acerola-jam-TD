@@ -33,7 +33,7 @@ func _enter_tree():
 	SignalManager.update_mob_count.connect(_on_mob_count_changed)
 	#SignalManager.remove_spawner_from_list.connect(_on_spawner_removed)
 	
-	#randomize()
+	randomize()
 
 func _ready():
 	GameManager.mob_manager = self
@@ -49,7 +49,7 @@ func _process(delta):
 	
 	deltaTimer += delta * GameManager.gameTimerSpeed
 	if deltaTimer >= spawnInterval:
-		deltaTimer -= spawnInterval * GameManager.gameTimerSpeed
+		deltaTimer -= spawnInterval
 		spawn()
 
 func spawn():

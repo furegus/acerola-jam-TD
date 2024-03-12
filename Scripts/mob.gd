@@ -71,12 +71,12 @@ func OffField():
 
 func damage(atk : Attack):
 	$HealthComponent.damage(atk)
-	SignalManager.update_mob_count.emit()
 
 func _on_death():
 	if dying:
 		return
 	dying = true
+	SignalManager.update_mob_count.emit()
 	if !class_ID:
 		return
 	GameManager.map.add_coins(class_ID.coinReward)

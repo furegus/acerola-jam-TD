@@ -7,11 +7,13 @@ var tween : Tween
 @onready var enemyRemainingLabel : Label = $VBoxContainer/EnemiesLeft/HBoxContainer/current
 @onready var enemyMaxLabel : Label = $VBoxContainer/EnemiesLeft/HBoxContainer/max
 @onready var coinsLabel : Label = $CoinPanel/MarginContainer/HBoxContainer/coins
+@onready var hpLabel : Label = $CoinPanel/MarginContainer/HBoxContainer/hearts
 
 func _enter_tree():
 	$VBoxContainer/NextRound.hide()
 	$VBoxContainer/EnemiesLeft.hide()
 	SignalManager.update_coins.connect(_on_coins_updated)
+	SignalManager.update_base_health.connect(_on_base_health_updated)
 	SignalManager.wave_changed.connect(_on_wave_changed)
 	SignalManager.wave_started.connect(_on_wave_started)
 	SignalManager.wave_timer_changed.connect(_on_wave_timer_changed)
@@ -21,7 +23,7 @@ func _enter_tree():
 	SignalManager.combatant_placement_end.connect(_on_placement_end)
 
 func _ready():
-	pass
+	GameManager.gameTimerSpeed = 1
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -67,12 +69,15 @@ func _on_coins_updated(c:int):
 	for x in $CombatantPanel/MarginContainer/HBoxContainer.get_children():
 		x.disabled = x.class_ID.cost > c
 
+func _on_base_health_updated(helth: int):
+	hpLabel.text = str(helth)
+
 func _on_next_button_pressed():
 	if !GameManager.isGameTimeRunning:
 		return
 	
 	if GameManager.gameTimerSpeed == 1:
-		GameManager.gameTimerSpeed = 8
+		GameManager.gameTimerSpeed = 2
 		$NextButton.icon = load("res://Assets/icons/FF.png")
 	else:
 		GameManager.gameTimerSpeed = 1

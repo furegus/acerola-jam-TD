@@ -1,7 +1,7 @@
 extends Node
 class_name WaveHandler
 
-@export var maxWaves : int = 23
+@export var maxWaves : int = 13
 @export var autoNext : bool = true
 var currentWave : int = 0
 var waveCurrencyMult : int = 10
@@ -18,6 +18,8 @@ func _ready():
 	next_wave()
 
 func _process(delta):
+	if !GameManager.isGameTimeRunning:
+		return
 	if !running:
 		waveTimer -= delta * GameManager.gameTimerSpeed
 		SignalManager.wave_timer_changed.emit(waveTimer)

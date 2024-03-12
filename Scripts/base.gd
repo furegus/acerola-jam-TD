@@ -23,6 +23,7 @@ var deltaTimer : float = 0
 var currentMarker : Node3D
 
 @onready var healthComponent: HealthComponent = $HealthComponent
+signal move_finished
 
 func _enter_tree():
 	if Engine.is_editor_hint():
@@ -36,7 +37,6 @@ func _ready():
 	
 	if disabled:
 		return
-	
 	SignalManager.add_base_to_list.emit(self)
 	$AnimationPlayer.play("hover")
 	if canMove:
@@ -57,11 +57,7 @@ func _process(delta):
 	#if deltaTimer <= 0:
 		#change_location()
 
-#func _physics_process(delta):
-	#if Engine.is_editor_hint():
-		#return
-	#
-	#
+
 
 func _on_death():
 	SignalManager.update_base.emit()
@@ -78,20 +74,23 @@ func _on_hitbox_component_body_entered(body):
 	healthComponent.damage(atk)
 	print(name,healthComponent.current_health)
 	SignalManager.update_mob_count.emit()
+	SignalManager.update_base_health.emit(healthComponent.current_health)
 
-func change_location():
+func change_location(custom:Node3D):
 	deltaTimer = moveBufferTime
 	# Check to see if we even are changing locations
-	var ischanging : bool = [false,true].pick_random()
-	if firstTime:
-		ischanging = true
-		firstTime = false
+	#var ischanging : bool = [false,true].pick_random()
+	#if firstTime:
+		#ischanging = true
+		#firstTime = false
 	
-	if !ischanging:
-		return
+	#if !ischanging:
+		#return
 	
-	print("CHANGE TIME")
-	currentMarker = fetch_random_marker()
+	if !is_instance_valid(custom):
+		currentMarker = fetch_random_marker()
+	else:
+		currentMarker = custom
 	if currentMarker == null:
 		return
 	movement()
@@ -116,10 +115,11 @@ func movement():
 	var tween : Tween = create_tween()
 	tween.set_loops(1)
 	tween.tween_property(self, "position", position + Vector3(0, 1.5, 0), 3) # Move Up
-	tween.chain().tween_property(self, "position", final + Vector3(0, 1.5, 0), dist) # Move to Node
+	tween.chain().tween_property(self, "position", final + Vector3(0, 1.5, 0), dist / 2.0) # Move to Node
 	tween.chain().tween_property(self, "position", final, 3) # Move Down
 	await tween.finished
 	isMoving = false
+	move_finished.emit()
 
 
 func _on_moving_timer_timeout():

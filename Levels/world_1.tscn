@@ -8,9 +8,10 @@
 [ext_resource type="Script" path="res://Scripts/tile.gd" id="2_sh3h0"]
 [ext_resource type="PackedScene" uid="uid://kohokhpsvdpr" path="res://Scenes/pan_camera.tscn" id="3_uyuvp"]
 [ext_resource type="Script" path="res://Scripts/wave_handler.gd" id="5_vo78c"]
-[ext_resource type="Script" path="res://Scripts/flow_field.gd" id="6_x1fk3"]
+[ext_resource type="Script" path="res://Scripts/MusicStarter.gd" id="6_luk60"]
 [ext_resource type="PackedScene" uid="uid://b384lgv14bfl5" path="res://UI/hud.tscn" id="7_6op00"]
 [ext_resource type="Script" path="res://Scripts/ScriptManager.gd" id="7_bfr1u"]
+[ext_resource type="AudioStream" uid="uid://di8vul0aj868p" path="res://Assets/sfx/explosion-6055_pixabay.mp3" id="8_uiux7"]
 [ext_resource type="MeshLibrary" uid="uid://bgcqqtanj5d3m" path="res://Scenes/floorTiles.meshlib" id="10_k1qnm"]
 [ext_resource type="ArrayMesh" uid="uid://c85n50aolgklp" path="res://Scenes/tileHighlight_round.tres" id="10_sfsar"]
 [ext_resource type="Script" path="res://Scripts/base_manager.gd" id="11_l1toc"]
@@ -26,6 +27,9 @@
 [ext_resource type="Resource" uid="uid://myaq3sx5hmtb" path="res://Scenes/Mobs/ghost.tres" id="20_a0m30"]
 [ext_resource type="PackedScene" uid="uid://bvpww6o2stai5" path="res://UI/game_finish_menu.tscn" id="25_1237y"]
 [ext_resource type="Script" path="res://UI/game_finish_menu.gd" id="26_7xpp0"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_uy8qq"]
+fractal_octaves = 4
 
 [sub_resource type="Gradient" id="Gradient_u1lbr"]
 offsets = PackedFloat32Array(0, 0.244898, 0.714286, 0.959184, 1)
@@ -52,10 +56,9 @@ glow_enabled = true
 glow_bloom = 0.17
 fog_enabled = true
 fog_mode = 1
-fog_light_color = Color(0.509499, 0.770516, 0.780949, 1)
+fog_light_color = Color(0.544674, 0.923883, 0.964901, 1)
 fog_density = 1.0
-fog_depth_begin = 100.0
-fog_depth_end = 150.0
+fog_depth_begin = 75.0
 adjustment_enabled = true
 adjustment_color_correction = SubResource("GradientTexture1D_toqk6")
 
@@ -3747,38 +3750,6 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_its40")
-
-[sub_resource type="ArrayMesh" id="ArrayMesh_c5ely"]
-_surfaces = [{
-"aabb": AABB(-0.5, -0.125, -0.5, 1, 0.5, 1.00001),
-"format": 34896613377,
-"index_count": 36,
-"index_data": PackedByteArray(0, 0, 3, 0, 1, 0, 0, 0, 2, 0, 3, 0, 2, 0, 7, 0, 3, 0, 2, 0, 6, 0, 7, 0, 6, 0, 5, 0, 7, 0, 6, 0, 4, 0, 5, 0, 4, 0, 1, 0, 5, 0, 4, 0, 0, 0, 1, 0, 2, 0, 4, 0, 6, 0, 2, 0, 0, 0, 4, 0, 7, 0, 1, 0, 3, 0, 7, 0, 5, 0, 1, 0),
-"name": "test",
-"primitive": 3,
-"uv_scale": Vector4(0, 0, 0, 0),
-"vertex_count": 8,
-"vertex_data": PackedByteArray(0, 0, 0, 0, 254, 255, 0, 0, 0, 0, 255, 255, 254, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 0, 0, 0, 0, 255, 255, 0, 0, 254, 255, 0, 0, 255, 255, 255, 255, 254, 255, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 0, 0, 0, 0)
-}]
-blend_shape_mode = 0
-
-[sub_resource type="ArrayMesh" id="ArrayMesh_10vxm"]
-resource_name = "acerola_jam0_tilemap1_Cube_118"
-_surfaces = [{
-"aabb": AABB(-0.5, -0.125, -0.5, 1, 0.5, 1.00001),
-"attribute_data": PackedByteArray(255, 95, 255, 255, 255, 31, 255, 63, 255, 95, 0, 0, 255, 159, 255, 255, 255, 159, 0, 0, 255, 223, 255, 63, 255, 95, 255, 191, 255, 31, 255, 127, 255, 95, 255, 191, 255, 159, 255, 191, 255, 159, 255, 191, 255, 223, 255, 127, 255, 95, 255, 63, 255, 95, 255, 63, 255, 95, 255, 63, 255, 159, 255, 63, 255, 159, 255, 63, 255, 159, 255, 63, 255, 95, 255, 127, 255, 95, 255, 127, 255, 95, 255, 127, 255, 159, 255, 127, 255, 159, 255, 127, 255, 159, 255, 127),
-"format": 34896613399,
-"index_count": 36,
-"index_data": PackedByteArray(0, 0, 9, 0, 3, 0, 0, 0, 6, 0, 9, 0, 8, 0, 21, 0, 10, 0, 8, 0, 19, 0, 21, 0, 20, 0, 17, 0, 23, 0, 20, 0, 14, 0, 17, 0, 13, 0, 4, 0, 15, 0, 13, 0, 2, 0, 4, 0, 7, 0, 12, 0, 18, 0, 7, 0, 1, 0, 12, 0, 22, 0, 5, 0, 11, 0, 22, 0, 16, 0, 5, 0),
-"material": ExtResource("2_kqjsd"),
-"name": "test",
-"primitive": 3,
-"uv_scale": Vector4(0, 0, 0, 0),
-"vertex_count": 24,
-"vertex_data": PackedByteArray(0, 0, 0, 0, 254, 255, 84, 213, 0, 0, 0, 0, 254, 255, 255, 191, 0, 0, 0, 0, 254, 255, 255, 191, 0, 0, 255, 255, 254, 255, 84, 213, 0, 0, 255, 255, 254, 255, 255, 191, 0, 0, 255, 255, 254, 255, 255, 255, 0, 0, 0, 0, 0, 0, 84, 213, 0, 0, 0, 0, 0, 0, 255, 191, 0, 0, 0, 0, 0, 0, 255, 255, 0, 0, 255, 255, 0, 0, 84, 213, 0, 0, 255, 255, 0, 0, 255, 255, 0, 0, 255, 255, 0, 0, 255, 255, 255, 255, 0, 0, 254, 255, 255, 191, 255, 255, 0, 0, 254, 255, 255, 191, 255, 255, 0, 0, 254, 255, 84, 213, 255, 255, 255, 255, 254, 255, 255, 191, 255, 255, 255, 255, 254, 255, 255, 255, 255, 255, 255, 255, 254, 255, 84, 213, 255, 255, 0, 0, 0, 0, 255, 191, 255, 255, 0, 0, 0, 0, 255, 255, 255, 255, 0, 0, 0, 0, 84, 213, 255, 255, 255, 255, 0, 0, 255, 255, 255, 255, 255, 255, 0, 0, 255, 255, 255, 255, 255, 255, 0, 0, 84, 213, 84, 213, 84, 213, 0, 0, 255, 127, 255, 255, 255, 255, 84, 213, 84, 213, 255, 255, 255, 255, 255, 127, 255, 191, 84, 213, 84, 213, 0, 0, 255, 127, 255, 191, 255, 191, 84, 213, 84, 213, 255, 191, 255, 191, 255, 127, 255, 191, 0, 0, 255, 127, 255, 255, 255, 255, 170, 42, 170, 42, 255, 255, 255, 255, 255, 127, 255, 191, 170, 42, 170, 42, 0, 0, 255, 127, 255, 191, 255, 191, 170, 42, 170, 42, 255, 191, 255, 191, 255, 127, 255, 191, 170, 42, 170, 42)
-}]
-blend_shape_mode = 0
-shadow_mesh = SubResource("ArrayMesh_c5ely")
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_mss7b"]
 _surfaces = [{
@@ -7645,23 +7616,43 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, -0.5)
 mesh_library = ExtResource("2_ng2m2")
 cell_size = Vector3(1, 0.5, 1)
 data = {
-"cells": PackedInt32Array(65525, 8, 0, 65525, 7, 0, 65531, 7, 0, 65531, 8, 0, 65532, 7, 0, 65532, 8, 0, 65533, 8, 0, 65532, 6, 0, 65532, 5, 0, 65532, 4, 0, 65532, 3, 0, 65532, 2, 0, 65531, 2, 0, 65530, 2, 0, 65529, 2, 0, 65528, 2, 0, 65527, 2, 0, 65527, 1, 0, 65527, 0, 0, 65527, 65535, 0, 65527, 65534, 0, 65527, 65533, 0, 65527, 65532, 0, 65528, 65532, 0, 65529, 65532, 0, 65530, 65532, 0, 65531, 65532, 0, 65532, 65532, 0, 65533, 65532, 0, 65534, 65532, 0, 65535, 65532, 0, 0, 65532, 0, 1, 65533, 0, 1, 65532, 0, 1, 65535, 0, 1, 65534, 0, 2, 65535, 0, 3, 65535, 0, 4, 65535, 0, 5, 65535, 0, 5, 0, 0, 4, 0, 0, 5, 1, 0, 4, 1, 0, 4, 2, 0, 4, 3, 0, 5, 3, 0, 5, 2, 0, 5, 4, 0, 4, 4, 0, 3, 4, 0, 3, 5, 0, 3, 6, 0, 3, 7, 0, 4, 7, 0, 4, 6, 0, 4, 5, 0, 5, 6, 0, 5, 5, 0, 5, 7, 0, 6, 7, 0, 6, 6, 0, 6, 5, 0, 6, 4, 0, 0, 6, 0, 0, 5, 0, 0, 4, 0, 0, 7, 0, 0, 8, 0, 65535, 8, 0, 65534, 8, 0, 65526, 8, 0, 65527, 8, 0, 65528, 8, 0, 65529, 8, 0, 65530, 8, 0, 65530, 7, 0, 65529, 7, 0, 65528, 7, 0, 65527, 7, 0, 65526, 7, 0, 4, 65534, 0, 5, 65534, 0, 5, 65533, 0, 4, 65533, 0, 4, 65532, 0, 5, 65532, 0, 6, 65532, 0, 7, 65532, 0, 6, 65531, 0, 6, 65530, 0, 5, 65530, 0, 4, 65530, 0, 4, 65531, 0, 5, 65531, 0, 3, 65531, 0, 3, 65530, 0, 3, 65532, 0, 2, 65532, 0, 3, 65533, 0, 6, 65533, 0, 8, 65532, 0, 9, 65532, 0, 10, 65532, 0, 10, 65531, 0, 10, 65530, 0, 11, 65530, 0, 11, 65531, 0, 12, 65531, 0, 13, 65531, 0, 14, 65531, 0, 15, 65531, 0, 16, 65531, 0, 17, 65531, 0, 18, 65531, 0, 19, 65531, 0, 20, 65531, 0, 21, 65531, 0, 22, 65531, 0, 22, 65532, 0, 22, 65533, 0, 22, 65534, 0, 22, 65535, 0, 22, 0, 0, 22, 1, 0, 23, 1, 0, 23, 0, 0, 23, 65535, 0, 24, 65535, 0, 24, 0, 0, 24, 1, 0, 25, 0, 0, 25, 65535, 0, 26, 0, 0, 26, 1, 0, 26, 65535, 0, 27, 0, 0, 28, 0, 0, 29, 0, 0, 30, 0, 0, 26, 2, 0, 26, 3, 0, 26, 4, 0, 26, 5, 0, 26, 6, 0, 26, 7, 0, 26, 8, 0, 26, 9, 0, 24, 9, 0, 23, 9, 0, 22, 9, 0, 22, 8, 0, 22, 7, 0, 23, 7, 0, 24, 7, 0, 24, 8, 0, 23, 8, 0, 17, 9, 0, 16, 9, 0, 16, 8, 0, 17, 8, 0, 17, 7, 0, 18, 7, 0, 18, 6, 0, 18, 5, 0, 17, 5, 0, 16, 6, 0, 15, 6, 0, 15, 5, 0, 16, 5, 0, 17, 6, 0, 16, 7, 0, 15, 7, 0, 16, 4, 0, 16, 3, 0, 16, 2, 0, 16, 1, 0, 16, 0, 0, 16, 65535, 0, 16, 65534, 0, 16, 65533, 0, 16, 65532, 0, 17, 65532, 0, 17, 65533, 0, 17, 65534, 0, 17, 65535, 0, 17, 0, 0, 17, 1, 0, 17, 2, 0, 17, 3, 0, 17, 4, 0, 10, 65533, 0, 10, 65534, 0, 10, 65535, 0, 10, 0, 0, 10, 1, 0, 11, 1, 0, 12, 1, 0, 13, 1, 0, 14, 1, 0, 15, 1, 0, 10, 2, 0, 10, 3, 0, 10, 4, 0, 11, 4, 0, 11, 3, 0, 11, 2, 0, 11, 5, 0, 10, 5, 0, 9, 5, 0, 9, 4, 0, 9, 6, 0, 9, 7, 0, 10, 7, 0, 10, 6, 0, 10, 8, 0, 9, 8, 0, 10, 9, 0, 8, 5, 0, 8, 6, 0, 7, 5, 0, 7, 6, 0)
+"cells": PackedInt32Array(65525, 8, 0, 65525, 7, 0, 65531, 7, 0, 65531, 8, 0, 65532, 7, 0, 65532, 8, 0, 65533, 8, 0, 65532, 6, 0, 65532, 5, 0, 65532, 4, 0, 65532, 3, 0, 65532, 2, 0, 65531, 2, 0, 65530, 2, 0, 65529, 2, 0, 65528, 2, 0, 65527, 2, 0, 65527, 1, 0, 65527, 0, 0, 65527, 65535, 0, 65527, 65534, 0, 65527, 65533, 0, 65527, 65532, 0, 65528, 65532, 0, 65529, 65532, 0, 65530, 65532, 0, 65531, 65532, 0, 65532, 65532, 0, 65533, 65532, 0, 65534, 65532, 0, 65535, 65532, 0, 0, 65532, 0, 1, 65533, 0, 1, 65532, 0, 1, 65535, 0, 1, 65534, 0, 2, 65535, 0, 3, 65535, 0, 4, 65535, 0, 5, 65535, 0, 5, 0, 0, 4, 0, 0, 5, 1, 0, 4, 1, 0, 4, 2, 0, 4, 3, 0, 5, 3, 0, 5, 2, 0, 5, 4, 0, 4, 4, 0, 3, 4, 0, 3, 5, 0, 3, 6, 0, 3, 7, 0, 4, 7, 0, 4, 6, 0, 4, 5, 0, 5, 6, 0, 5, 5, 0, 5, 7, 0, 6, 7, 0, 6, 6, 0, 6, 5, 0, 6, 4, 0, 0, 6, 0, 0, 5, 0, 0, 4, 0, 0, 7, 0, 0, 8, 0, 65535, 8, 0, 65534, 8, 0, 65526, 8, 0, 65527, 8, 0, 65528, 8, 0, 65529, 8, 0, 65530, 8, 0, 65530, 7, 0, 65529, 7, 0, 65528, 7, 0, 65527, 7, 0, 65526, 7, 0, 4, 65534, 0, 5, 65534, 0, 5, 65533, 0, 4, 65533, 0, 4, 65532, 0, 5, 65532, 0, 6, 65532, 0, 7, 65532, 0, 6, 65531, 0, 6, 65530, 0, 5, 65530, 0, 4, 65530, 0, 4, 65531, 0, 5, 65531, 0, 3, 65531, 0, 3, 65530, 0, 3, 65532, 0, 2, 65532, 0, 3, 65533, 0, 6, 65533, 0, 8, 65532, 0, 9, 65532, 0, 10, 65532, 0, 10, 65531, 0, 11, 65531, 0, 12, 65531, 0, 13, 65531, 0, 14, 65531, 0, 15, 65531, 0, 16, 65531, 0, 17, 65531, 0, 18, 65531, 0, 19, 65531, 0, 20, 65531, 0, 21, 65531, 0, 22, 65531, 0, 22, 65532, 0, 22, 65533, 0, 22, 65534, 0, 22, 65535, 0, 22, 0, 0, 22, 1, 0, 23, 1, 0, 23, 0, 0, 23, 65535, 0, 24, 65535, 0, 24, 0, 0, 24, 1, 0, 25, 0, 0, 25, 65535, 0, 26, 0, 0, 26, 1, 0, 26, 65535, 0, 27, 0, 0, 28, 0, 0, 29, 0, 0, 30, 0, 0, 26, 2, 0, 26, 3, 0, 26, 4, 0, 26, 5, 0, 26, 6, 0, 26, 7, 0, 26, 8, 0, 26, 9, 0, 24, 9, 0, 23, 9, 0, 22, 9, 0, 22, 8, 0, 22, 7, 0, 23, 7, 0, 24, 7, 0, 24, 8, 0, 23, 8, 0, 17, 9, 0, 16, 9, 0, 16, 8, 0, 17, 8, 0, 17, 7, 0, 18, 7, 0, 18, 6, 0, 18, 5, 0, 17, 5, 0, 16, 6, 0, 15, 6, 0, 15, 5, 0, 16, 5, 0, 17, 6, 0, 16, 7, 0, 15, 7, 0, 16, 4, 0, 16, 3, 0, 16, 2, 0, 16, 1, 0, 16, 0, 0, 16, 65535, 0, 16, 65534, 0, 16, 65533, 0, 16, 65532, 0, 17, 65532, 0, 17, 65533, 0, 17, 65534, 0, 17, 65535, 0, 17, 0, 0, 17, 1, 0, 17, 2, 0, 17, 3, 0, 17, 4, 0, 10, 65533, 0, 10, 65534, 0, 10, 65535, 0, 10, 0, 0, 10, 1, 0, 11, 1, 0, 12, 1, 0, 13, 1, 0, 14, 1, 0, 15, 1, 0, 10, 2, 0, 10, 3, 0, 10, 4, 0, 11, 4, 0, 11, 3, 0, 11, 2, 0, 11, 5, 0, 10, 5, 0, 9, 5, 0, 9, 4, 0, 9, 6, 0, 9, 7, 0, 10, 7, 0, 10, 6, 0, 10, 8, 0, 9, 8, 0, 10, 9, 0, 25, 1, 0, 65525, 10, 0, 65526, 10, 0, 65527, 10, 0, 65528, 10, 0, 65528, 11, 0, 65527, 11, 0, 65526, 11, 0, 65525, 11, 0, 65529, 11, 0, 65529, 10, 0, 65530, 10, 0, 65531, 10, 0, 65532, 10, 0, 65533, 10, 0, 65534, 10, 0, 65534, 11, 0, 65535, 11, 0, 0, 11, 0, 1, 11, 0, 65533, 11, 0, 65532, 11, 0, 65531, 11, 0, 65530, 11, 0, 65535, 10, 0, 0, 10, 0, 1, 10, 0, 2, 10, 0, 3, 10, 0, 4, 10, 0, 5, 10, 0, 5, 11, 0, 4, 11, 0, 3, 11, 0, 2, 11, 0, 6, 11, 0, 7, 11, 0, 8, 11, 0, 8, 10, 0, 7, 10, 0, 6, 10, 0, 9, 10, 0, 10, 10, 0, 11, 10, 0, 12, 10, 0, 13, 10, 0, 14, 10, 0, 15, 10, 0, 16, 10, 0, 17, 10, 0, 18, 10, 0, 19, 10, 0, 20, 10, 0, 21, 10, 0, 21, 11, 0, 20, 11, 0, 19, 11, 0, 18, 11, 0, 17, 11, 0, 16, 11, 0, 15, 11, 0, 14, 11, 0, 13, 11, 0, 12, 11, 0, 11, 11, 0, 10, 11, 0, 9, 11, 0, 22, 10, 0, 23, 10, 0, 24, 10, 0, 25, 10, 0, 26, 10, 0, 27, 10, 0, 28, 10, 0, 29, 10, 0, 30, 10, 0, 30, 11, 0, 29, 11, 0, 28, 11, 0, 27, 11, 0, 26, 11, 0, 25, 11, 0, 24, 11, 0, 23, 11, 0, 22, 11, 0, 16, 12, 0, 17, 13, 0, 17, 14, 0, 16, 14, 0, 16, 13, 0, 17, 12, 0, 17, 15, 0, 16, 15, 0, 15, 14, 0, 14, 14, 0, 13, 14, 0, 12, 14, 0, 11, 14, 0, 10, 14, 0, 10, 13, 0, 11, 13, 0, 10, 15, 0, 9, 15, 0, 10, 16, 0, 10, 17, 0, 10, 18, 0, 10, 19, 0, 10, 20, 0, 10, 21, 0, 11, 20, 0, 11, 21, 0, 11, 22, 0, 10, 22, 0, 10, 23, 0, 9, 23, 0, 9, 24, 0, 11, 23, 0, 11, 24, 0, 10, 24, 0, 9, 25, 0, 9, 26, 0, 9, 27, 0, 10, 26, 0, 10, 25, 0, 10, 27, 0, 15, 23, 0, 16, 23, 0, 17, 23, 0, 18, 23, 0, 18, 24, 0, 17, 24, 0, 16, 24, 0, 15, 24, 0, 15, 25, 0, 18, 25, 0, 18, 26, 0, 17, 26, 0, 16, 26, 0, 15, 26, 0, 16, 27, 0, 17, 27, 0, 19, 25, 0, 20, 25, 0, 21, 25, 0, 22, 25, 0, 22, 26, 0, 21, 26, 0, 21, 27, 0, 22, 27, 0, 23, 27, 0, 23, 26, 0, 24, 26, 0, 24, 27, 0, 24, 28, 0, 23, 28, 0, 22, 28, 0, 21, 28, 0, 26, 27, 0, 26, 26, 0, 26, 25, 0, 26, 24, 0, 26, 23, 0, 26, 22, 0, 26, 21, 0, 26, 20, 0, 26, 19, 0, 27, 19, 0, 28, 19, 0, 29, 19, 0, 30, 19, 0, 25, 20, 0, 24, 20, 0, 23, 20, 0, 23, 19, 0, 22, 19, 0, 24, 19, 0, 25, 19, 0, 26, 18, 0, 25, 18, 0, 24, 18, 0, 23, 18, 0, 22, 18, 0, 22, 17, 0, 23, 17, 0, 24, 17, 0, 25, 17, 0, 25, 16, 0, 24, 16, 0, 23, 16, 0, 22, 16, 0, 23, 15, 0, 22, 15, 0, 22, 14, 0, 21, 14, 0, 20, 14, 0, 19, 14, 0, 18, 14, 0, 16, 16, 0, 16, 17, 0, 16, 18, 0, 16, 19, 0, 16, 20, 0, 16, 21, 0, 17, 19, 0, 17, 18, 0, 17, 17, 0, 17, 16, 0, 17, 20, 0, 17, 21, 0, 17, 22, 0, 16, 22, 0, 15, 17, 0, 14, 17, 0, 13, 17, 0, 12, 17, 0, 12, 16, 0, 13, 16, 0, 14, 16, 0, 14, 18, 0, 13, 18, 0, 12, 18, 0, 65526, 20, 0, 65527, 20, 0, 65528, 20, 0, 65529, 20, 0, 65530, 20, 0, 65530, 21, 0, 65530, 22, 0, 65531, 21, 0, 65531, 20, 0, 65531, 22, 0, 65525, 29, 0, 65526, 29, 0, 65527, 29, 0, 65528, 29, 0, 65529, 29, 0, 65530, 29, 0, 65531, 29, 0, 65532, 29, 0, 65533, 29, 0, 65534, 29, 0, 65535, 29, 0, 0, 29, 0, 1, 29, 0, 2, 29, 0, 3, 29, 0, 4, 29, 0, 5, 29, 0, 6, 29, 0, 7, 29, 0, 8, 29, 0, 9, 29, 0, 10, 29, 0, 11, 29, 0, 12, 29, 0, 13, 29, 0, 14, 29, 0, 15, 29, 0, 16, 29, 0, 17, 29, 0, 18, 29, 0, 19, 29, 0, 20, 29, 0, 21, 29, 0, 22, 29, 0, 23, 29, 0, 24, 29, 0, 25, 29, 0, 26, 29, 0, 27, 29, 0, 28, 29, 0, 29, 29, 0, 30, 29, 0, 0, 28, 0, 0, 27, 0, 0, 26, 0, 1, 26, 0, 2, 26, 0, 2, 27, 0, 2, 28, 0, 1, 28, 0, 1, 27, 0, 4, 28, 0, 4, 27, 0, 4, 26, 0, 4, 25, 0, 4, 24, 0, 4, 23, 0, 4, 22, 0, 4, 21, 0, 4, 20, 0, 4, 19, 0, 5, 19, 0, 7, 19, 0, 8, 19, 0, 3, 20, 0, 2, 20, 0, 1, 20, 0, 0, 20, 0, 0, 19, 0, 0, 18, 0, 4, 18, 0, 3, 19, 0, 2, 19, 0, 1, 19, 0, 0, 17, 0, 0, 16, 0, 0, 15, 0, 0, 14, 0, 65535, 14, 0, 65534, 14, 0, 65533, 14, 0, 65532, 14, 0, 65531, 14, 0, 65530, 14, 0, 65529, 14, 0, 65528, 14, 0, 65527, 14, 0, 65526, 14, 0, 65530, 15, 0, 65530, 16, 0, 65530, 17, 0, 65530, 18, 0, 65531, 16, 0, 65531, 15, 0, 65531, 17, 0, 65531, 18, 0, 65530, 19, 0, 65531, 19, 0, 12, 20, 0, 13, 20, 0, 14, 20, 0, 15, 20, 0, 65525, 12, 0, 65534, 22, 0, 65535, 22, 0, 0, 22, 0, 65532, 22, 0, 65533, 22, 0, 65532, 21, 0, 65533, 21, 0, 65534, 21, 0, 65535, 21, 0, 0, 21, 0, 65525, 20, 0, 0, 12, 0, 0, 13, 0, 4, 17, 0, 5, 17, 0, 6, 17, 0, 7, 17, 0, 8, 17, 0, 8, 18, 0, 7, 18, 0, 6, 18, 0, 5, 18, 0, 5, 20, 0, 6, 20, 0, 7, 20, 0, 8, 20, 0, 8, 21, 0, 7, 21, 0, 6, 21, 0, 5, 21, 0, 65527, 4, 0, 65528, 4, 0, 65528, 5, 0, 65528, 6, 0, 65527, 6, 0, 65527, 5, 0, 19, 65530, 0, 20, 65530, 0)
 }
 metadata/_editor_floor_ = Vector3(0, 0, 0)
 
 [node name="pan_camera" parent="Systems" instance=ExtResource("3_uyuvp")]
 transform = Transform3D(1, 0, 0, 0, 0.819152, 0.573577, 0, -0.573577, 0.819152, -2, 0, 2)
+noise = SubResource("FastNoiseLite_uy8qq")
 raycastMask = 1
 
 [node name="WaveHandler" type="Node" parent="Systems"]
 script = ExtResource("5_vo78c")
 
-[node name="FlowField" type="Node3D" parent="Systems" node_paths=PackedStringArray("gridmap")]
-script = ExtResource("6_x1fk3")
-gridmap = NodePath("../AStar/GridMap")
+[node name="MusicStarter" type="Node" parent="Systems"]
+script = ExtResource("6_luk60")
 
 [node name="ScriptManager" type="Node" parent="Systems"]
 script = ExtResource("7_bfr1u")
+
+[node name="Marker3D" type="Marker3D" parent="Systems/ScriptManager"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5545, 0, 4)
+
+[node name="Marker3D1_1" type="Marker3D" parent="Systems/ScriptManager"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, 3)
+
+[node name="Marker3D2" type="Marker3D" parent="Systems/ScriptManager"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.69341, 0, -5.36218)
+
+[node name="Marker3D3" type="Marker3D" parent="Systems/ScriptManager"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.6934, 0, 24.6378)
+
+[node name="Marker3D4" type="Marker3D" parent="Systems/ScriptManager"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.30659, 0, 20.6378)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Systems/ScriptManager"]
+stream = ExtResource("8_uiux7")
+volume_db = -10.0
+bus = &"SFX"
 
 [node name="Environment" type="Node3D" parent="."]
 
@@ -8475,13 +8466,6 @@ _highlight_mesh = ExtResource("10_sfsar")
 [node name="Tile_096" type="MeshInstance3D" parent="Environment/acerola_jam0_map/TileCollection"]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 8.31818, 0.125, -4.80165)
 mesh = SubResource("ArrayMesh_xnrtl")
-skeleton = NodePath("")
-script = ExtResource("2_sh3h0")
-_highlight_mesh = ExtResource("10_sfsar")
-
-[node name="Tile_097" type="MeshInstance3D" parent="Environment/acerola_jam0_map/TileCollection"]
-transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 8.31818, 0.125, -3.80165)
-mesh = SubResource("ArrayMesh_10vxm")
 skeleton = NodePath("")
 script = ExtResource("2_sh3h0")
 _highlight_mesh = ExtResource("10_sfsar")
@@ -9356,7 +9340,17 @@ mesh = SubResource("BoxMesh_7ao78")
 skeleton = NodePath("")
 
 [node name="MobSpawner3" parent="Environment/Block2" instance=ExtResource("13_fbw2m")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.5, 0, 9.05)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 0, 9.05)
+disabled = true
+
+[node name="MobSpawner4" parent="Environment/Block2" instance=ExtResource("13_fbw2m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0, -6.95)
+visible = false
+disabled = true
+
+[node name="MobSpawner5" parent="Environment/Block2" instance=ExtResource("13_fbw2m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0, -6.95)
+visible = false
 disabled = true
 
 [node name="Tiles" type="Node3D" parent="Environment/Block2"]
@@ -9419,6 +9413,20 @@ _highlight_mesh = ExtResource("10_sfsar")
 
 [node name="Tile_181" type="MeshInstance3D" parent="Environment/Block2/Tiles"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.5018, 0.125, -6.95165)
+mesh = SubResource("ArrayMesh_dw231")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_186" type="MeshInstance3D" parent="Environment/Block2/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.5018, 0.125, -5.95165)
+mesh = SubResource("ArrayMesh_d2xhg")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_192" type="MeshInstance3D" parent="Environment/Block2/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.5018, 0.125, -5.95165)
 mesh = SubResource("ArrayMesh_dw231")
 skeleton = NodePath("")
 script = ExtResource("2_sh3h0")
@@ -9573,6 +9581,13 @@ _highlight_mesh = ExtResource("10_sfsar")
 
 [node name="Tile_188" type="MeshInstance3D" parent="Environment/Block2/Tiles"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.50182, 0.125, 9.04835)
+mesh = SubResource("ArrayMesh_mdylm")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_189" type="MeshInstance3D" parent="Environment/Block2/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.50182, 0.125, 9.04835)
 mesh = SubResource("ArrayMesh_mdylm")
 skeleton = NodePath("")
 script = ExtResource("2_sh3h0")
@@ -10775,13 +10790,6 @@ skeleton = NodePath("")
 script = ExtResource("2_sh3h0")
 _highlight_mesh = ExtResource("10_sfsar")
 
-[node name="Tile_499" type="MeshInstance3D" parent="Environment/Block2/Tiles"]
-transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -2.5018, 0.125, -5.95165)
-mesh = SubResource("ArrayMesh_60t22")
-skeleton = NodePath("")
-script = ExtResource("2_sh3h0")
-_highlight_mesh = ExtResource("10_sfsar")
-
 [node name="Tile_501" type="MeshInstance3D" parent="Environment/Block2/Tiles"]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -2.5018, 0.125, -3.95165)
 mesh = SubResource("ArrayMesh_60t22")
@@ -10791,13 +10799,6 @@ _highlight_mesh = ExtResource("10_sfsar")
 
 [node name="Tile_502" type="MeshInstance3D" parent="Environment/Block2/Tiles"]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -2.5018, 0.125, -2.95165)
-mesh = SubResource("ArrayMesh_60t22")
-skeleton = NodePath("")
-script = ExtResource("2_sh3h0")
-_highlight_mesh = ExtResource("10_sfsar")
-
-[node name="Tile_503" type="MeshInstance3D" parent="Environment/Block2/Tiles"]
-transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -1.5018, 0.125, -5.95165)
 mesh = SubResource("ArrayMesh_60t22")
 skeleton = NodePath("")
 script = ExtResource("2_sh3h0")
@@ -11160,6 +11161,3405 @@ skeleton = NodePath("")
 script = ExtResource("2_sh3h0")
 _highlight_mesh = ExtResource("10_sfsar")
 
+[node name="Block3" type="Node3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 18.95)
+
+[node name="Land" type="MeshInstance3D" parent="Environment/Block3"]
+transform = Transform3D(3.12786, 0, 0, 0, 1, 0, 0, 0, 3.12786, -1.5, -50, 1.1)
+material_override = ExtResource("1_vfcw6")
+mesh = SubResource("BoxMesh_7ao78")
+skeleton = NodePath("")
+
+[node name="MobSpawner2" parent="Environment/Block3" instance=ExtResource("13_fbw2m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6.95)
+disabled = true
+
+[node name="Tiles" type="Node3D" parent="Environment/Block3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0)
+
+[node name="Tile_055" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.50182, 0.125, -6.95165)
+mesh = SubResource("ArrayMesh_se3qy")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_105" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.50182, 0.125, -6.95165)
+mesh = SubResource("ArrayMesh_d7w8h")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_152" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.50182, 0.125, -6.95165)
+mesh = SubResource("ArrayMesh_46aml")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_175" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.50182, 0.125, -6.95165)
+mesh = SubResource("ArrayMesh_4f3cy")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_156" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.50182, 0.125, -6.95165)
+mesh = SubResource("ArrayMesh_46aml")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_180" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.50182, 0.125, -6.95165)
+mesh = SubResource("ArrayMesh_4f3cy")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_157" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.50182, 0.125, -5.95165)
+mesh = SubResource("ArrayMesh_46aml")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_181" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.50182, 0.125, -5.95165)
+mesh = SubResource("ArrayMesh_4f3cy")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_177" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.50182, 0.125, -6.95165)
+mesh = SubResource("ArrayMesh_a6xc4")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_178" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.50182, 0.125, -6.95165)
+mesh = SubResource("ArrayMesh_xqwdu")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_182" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.50182, 0.125, -6.95165)
+mesh = SubResource("ArrayMesh_hbi28")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_183" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.50182, 0.125, -6.95165)
+mesh = SubResource("ArrayMesh_mdylm")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_193" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.49818, 0.125, -6.95165)
+mesh = SubResource("ArrayMesh_u8va3")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_197" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.49818, 0.125, -6.95165)
+mesh = SubResource("ArrayMesh_u8va3")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_199" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.49818, 0.125, -6.95165)
+mesh = SubResource("ArrayMesh_u8va3")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_194" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.49818, 0.125, -6.95165)
+mesh = SubResource("ArrayMesh_q2qxj")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_195" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.49818, 0.125, -6.95165)
+mesh = SubResource("ArrayMesh_vhlgs")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_196" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.49818, 0.125, -6.95165)
+mesh = SubResource("ArrayMesh_df3gv")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_198" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.49818, 0.125, -6.95165)
+mesh = SubResource("ArrayMesh_uf6hv")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_211" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.49818, 0.125, -6.95165)
+mesh = SubResource("ArrayMesh_hjlyn")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_056" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.50182, 0.125, 9.04835)
+mesh = SubResource("ArrayMesh_se3qy")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_106" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.50182, 0.125, 9.04835)
+mesh = SubResource("ArrayMesh_d7w8h")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_153" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.50182, 0.125, 9.04835)
+mesh = SubResource("ArrayMesh_46aml")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_154" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.50182, 0.125, 9.04835)
+mesh = SubResource("ArrayMesh_46aml")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_155" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.50182, 0.125, 9.04835)
+mesh = SubResource("ArrayMesh_46aml")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_158" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.50182, 0.125, 8.04835)
+mesh = SubResource("ArrayMesh_46aml")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_159" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.50182, 0.125, 8.04835)
+mesh = SubResource("ArrayMesh_46aml")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_176" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.50182, 0.125, 9.04835)
+mesh = SubResource("ArrayMesh_4f3cy")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_179" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.50182, 0.125, 9.04835)
+mesh = SubResource("ArrayMesh_a6xc4")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_184" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.50182, 0.125, 9.04835)
+mesh = SubResource("ArrayMesh_xqwdu")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_185" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.5018, 0.125, 9.04835)
+mesh = SubResource("ArrayMesh_d2xhg")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_187" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.50182, 0.125, 9.04835)
+mesh = SubResource("ArrayMesh_hbi28")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_188" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.50182, 0.125, 9.04835)
+mesh = SubResource("ArrayMesh_mdylm")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_201" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.49818, 0.125, 9.04835)
+mesh = SubResource("ArrayMesh_u8va3")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_202" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.49818, 0.125, 9.04835)
+mesh = SubResource("ArrayMesh_u8va3")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_203" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.49818, 0.125, 9.04835)
+mesh = SubResource("ArrayMesh_u8va3")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_204" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.49818, 0.125, 9.04835)
+mesh = SubResource("ArrayMesh_q2qxj")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_206" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.49818, 0.125, 9.04835)
+mesh = SubResource("ArrayMesh_df3gv")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_241" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -10.5018, 0.125, -5.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_242" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -10.5018, 0.125, -4.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_270" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -10.5018, 0.125, 6.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_271" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -10.5018, 0.125, 7.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_272" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -10.5018, 0.125, 8.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_273" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -9.5018, 0.125, 2.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_274" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -9.5018, 0.125, 3.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_275" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -9.5018, 0.125, 4.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_276" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -9.5018, 0.125, 5.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_313" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -10.5018, 0.125, 2.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_314" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -10.5018, 0.125, 3.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_315" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -10.5018, 0.125, 4.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_316" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -10.5018, 0.125, 5.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_277" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -9.5018, 0.125, 6.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_278" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -9.5018, 0.125, 7.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_279" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -9.5018, 0.125, 8.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_280" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -8.5018, 0.125, 2.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_281" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -8.5018, 0.125, 3.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_282" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -8.5018, 0.125, 4.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_283" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -8.5018, 0.125, 5.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_284" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -8.5018, 0.125, 6.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_285" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -8.5018, 0.125, 7.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_286" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -8.5018, 0.125, 8.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_287" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -7.5018, 0.125, 2.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_288" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -7.5018, 0.125, 3.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_289" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -7.5018, 0.125, 4.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_290" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -7.5018, 0.125, 5.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_291" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -7.5018, 0.125, 6.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_292" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -7.5018, 0.125, 7.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_297" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -6.5018, 0.125, 6.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_298" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -6.5018, 0.125, 7.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_299" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -5.5018, 0.125, 5.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_301" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -5.5018, 0.125, 6.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_302" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -5.5018, 0.125, 7.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_303" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -4.5018, 0.125, 5.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_304" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -4.5018, 0.125, 6.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_305" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -4.5018, 0.125, 7.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_306" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -3.5018, 0.125, 5.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_307" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -3.5018, 0.125, 6.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_308" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -3.5018, 0.125, 7.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_293" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -7.5018, 0.125, 8.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_294" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -6.5018, 0.125, 2.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_295" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -6.5018, 0.125, 3.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_296" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -6.5018, 0.125, 4.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_310" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -5.5018, 0.125, 4.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_309" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -6.5018, 0.125, 5.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_300" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -6.5018, 0.125, 8.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_321" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -3.5018, 0.125, 8.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_325" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -2.5018, 0.125, 5.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_326" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -2.5018, 0.125, 6.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_327" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -2.5018, 0.125, 7.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_328" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -2.5018, 0.125, 8.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_333" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -1.5018, 0.125, 6.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_334" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -1.5018, 0.125, 7.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_335" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -1.5018, 0.125, 8.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_340" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -0.501801, 0.125, 6.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_341" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -0.501801, 0.125, 7.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_342" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -0.501801, 0.125, 8.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_347" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0.498199, 0.125, 6.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_336" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -1.5018, 0.125, 5.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_343" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -0.501801, 0.125, 5.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_311" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -4.5018, 0.125, 4.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_312" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -3.5018, 0.125, 4.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_329" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -2.5018, 0.125, 4.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_337" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -1.5018, 0.125, 4.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_344" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -0.501801, 0.125, 4.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_348" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0.498199, 0.125, 5.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_349" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0.498199, 0.125, 4.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_351" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 1.4982, 0.125, 3.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_352" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 1.4982, 0.125, 4.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_353" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 1.4982, 0.125, 5.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_354" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 1.4982, 0.125, 6.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_358" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 2.4982, 0.125, 3.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_359" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 2.4982, 0.125, 4.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_360" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 2.4982, 0.125, 5.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_361" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 2.4982, 0.125, 6.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_365" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 3.4982, 0.125, 3.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_355" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 1.4982, 0.125, 2.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_362" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 2.4982, 0.125, 2.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_371" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 3.4982, 0.125, 2.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_366" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 3.4982, 0.125, 4.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_367" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 3.4982, 0.125, 5.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_368" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 3.4982, 0.125, 6.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_369" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 3.4982, 0.125, 7.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_370" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 3.4982, 0.125, 8.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_379" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 5.4982, 0.125, 3.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_380" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 5.4982, 0.125, 4.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_381" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 5.4982, 0.125, 5.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_382" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 5.4982, 0.125, 6.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_383" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 5.4982, 0.125, 7.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_384" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 5.4982, 0.125, 8.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_386" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 6.4982, 0.125, 3.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_387" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 6.4982, 0.125, 4.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_388" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 6.4982, 0.125, 5.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_389" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 6.4982, 0.125, 6.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_390" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 6.4982, 0.125, 7.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_391" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 6.4982, 0.125, 8.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_393" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 7.4982, 0.125, 3.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_394" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 7.4982, 0.125, 4.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_395" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 7.4982, 0.125, 5.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_399" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -9.5018, 0.125, -1.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_400" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -9.5018, 0.125, -0.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_401" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -9.5018, 0.125, 0.0483504)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_403" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -8.5018, 0.125, -1.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_404" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -8.5018, 0.125, -0.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_405" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -8.5018, 0.125, 0.0483504)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_407" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -7.5018, 0.125, -1.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_408" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -7.5018, 0.125, -0.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_409" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -7.5018, 0.125, 0.0483504)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_411" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -6.5018, 0.125, -1.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_412" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -6.5018, 0.125, -0.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_413" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -6.5018, 0.125, 0.0483504)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_423" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -3.5018, 0.125, -1.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_414" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -6.5018, 0.125, -2.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_484" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -3.5018, 0.125, -2.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_415" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -6.5018, 0.125, -3.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_485" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -3.5018, 0.125, -3.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_424" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -3.5018, 0.125, -0.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_425" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -3.5018, 0.125, 0.0483504)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_426" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -3.5018, 0.125, 1.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_427" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -2.5018, 0.125, -1.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_428" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -2.5018, 0.125, -0.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_429" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -2.5018, 0.125, 0.0483504)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_430" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -2.5018, 0.125, 1.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_431" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -1.5018, 0.125, -1.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_432" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -1.5018, 0.125, -0.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_433" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -1.5018, 0.125, 0.0483504)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_434" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -1.5018, 0.125, 1.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_435" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -0.501801, 0.125, -1.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_436" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -0.501801, 0.125, -0.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_437" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -0.501801, 0.125, 0.0483504)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_438" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -0.501801, 0.125, 1.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_443" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 1.4982, 0.125, -1.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_447" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 2.4982, 0.125, -1.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_451" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 3.4982, 0.125, -1.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_444" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 1.4982, 0.125, -0.951651)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_448" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 2.4982, 0.125, -0.951651)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_452" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 3.4982, 0.125, -0.951651)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_471" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -9.5018, 0.125, -5.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_473" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -9.5018, 0.125, -3.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_474" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -9.5018, 0.125, -2.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_475" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -8.5018, 0.125, -5.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_477" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -8.5018, 0.125, -3.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_478" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -8.5018, 0.125, -2.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_546" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -10.5018, 0.125, -1.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_547" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -10.5018, 0.125, -0.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_548" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -10.5018, 0.125, 0.0483504)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_551" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -10.5018, 0.125, -3.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_552" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -10.5018, 0.125, -2.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_479" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -7.5018, 0.125, -5.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_481" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -7.5018, 0.125, -3.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_482" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -7.5018, 0.125, -2.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_483" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -6.5018, 0.125, -5.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_495" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -3.5018, 0.125, -5.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_499" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -2.5018, 0.125, -5.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_501" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -2.5018, 0.125, -3.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_502" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -2.5018, 0.125, -2.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_503" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -1.5018, 0.125, -5.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_505" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -1.5018, 0.125, -3.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_506" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -1.5018, 0.125, -2.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_507" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -0.501801, 0.125, -5.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_509" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -0.501801, 0.125, -3.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_510" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -0.501801, 0.125, -2.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_515" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 1.4982, 0.125, -5.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_516" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 1.4982, 0.125, -4.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_517" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 1.4982, 0.125, -3.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_518" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 1.4982, 0.125, -2.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_519" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 2.4982, 0.125, -5.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_520" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 2.4982, 0.125, -4.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_521" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 2.4982, 0.125, -3.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_522" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 2.4982, 0.125, -2.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_523" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 3.4982, 0.125, -5.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_524" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 3.4982, 0.125, -4.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_525" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 3.4982, 0.125, -3.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_526" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 3.4982, 0.125, -2.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_527" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 4.4982, 0.125, -5.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_528" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 4.4982, 0.125, -4.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_529" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 4.4982, 0.125, -3.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_530" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 4.4982, 0.125, -2.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_531" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 5.4982, 0.125, -5.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_532" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 5.4982, 0.125, -4.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_533" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 5.4982, 0.125, -3.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_534" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 5.4982, 0.125, -2.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_535" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 6.4982, 0.125, -5.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_536" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 6.4982, 0.125, -4.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_537" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 6.4982, 0.125, -3.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_538" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 6.4982, 0.125, -2.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_539" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 7.4982, 0.125, -5.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_540" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 7.4982, 0.125, -4.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_541" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 7.4982, 0.125, -3.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_542" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 7.4982, 0.125, -2.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_396" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 7.4982, 0.125, 6.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_397" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 7.4982, 0.125, 7.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_398" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 7.4982, 0.125, 8.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_251" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 8.4982, 0.125, -5.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_252" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 8.4982, 0.125, -4.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_253" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 8.4982, 0.125, -3.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_254" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 8.4982, 0.125, -2.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_200" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.49818, 0.125, -6.95165)
+mesh = SubResource("ArrayMesh_u8va3")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_255" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 8.4982, 0.125, -5.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_256" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 8.4982, 0.125, -4.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_257" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 8.4982, 0.125, -3.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_258" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 8.4982, 0.125, -2.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_260" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 8.4982, 0.125, 3.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_261" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 8.4982, 0.125, 4.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_262" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 8.4982, 0.125, 5.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_263" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 8.4982, 0.125, 6.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_264" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 8.4982, 0.125, 7.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_265" type="MeshInstance3D" parent="Environment/Block3/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 8.4982, 0.125, 8.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Block4" type="Node3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.5, 0, 18.95)
+
+[node name="Land" type="MeshInstance3D" parent="Environment/Block4"]
+transform = Transform3D(3.12786, 0, 0, 0, 1, 0, 0, 0, 3.12786, -1.5, -50, 1.1)
+material_override = ExtResource("1_vfcw6")
+mesh = SubResource("BoxMesh_7ao78")
+skeleton = NodePath("")
+
+[node name="MobSpawner" parent="Environment/Block4" instance=ExtResource("13_fbw2m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 0, -1.95)
+disabled = true
+
+[node name="MobSpawner3" parent="Environment/Block4" instance=ExtResource("13_fbw2m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.5, 0, 9.05)
+visible = false
+disabled = true
+
+[node name="MobSpawner4" parent="Environment/Block4" instance=ExtResource("13_fbw2m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.5, 0, -6.95)
+visible = false
+disabled = true
+
+[node name="MobSpawner5" parent="Environment/Block4" instance=ExtResource("13_fbw2m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.5, 0, -6.95)
+visible = false
+disabled = true
+
+[node name="Tiles" type="Node3D" parent="Environment/Block4"]
+
+[node name="Tile_055" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.50182, 0.125, -6.95165)
+mesh = SubResource("ArrayMesh_se3qy")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_105" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.50182, 0.125, -6.95165)
+mesh = SubResource("ArrayMesh_d7w8h")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_148" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.49818, 0.125, -6.95165)
+mesh = SubResource("ArrayMesh_6rvg1")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_152" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.50182, 0.125, -6.95165)
+mesh = SubResource("ArrayMesh_46aml")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_175" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.50182, 0.125, -6.95165)
+mesh = SubResource("ArrayMesh_4f3cy")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_177" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.50182, 0.125, -6.95165)
+mesh = SubResource("ArrayMesh_a6xc4")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_178" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.50182, 0.125, -6.95165)
+mesh = SubResource("ArrayMesh_xqwdu")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_180" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.5018, 0.125, -6.95165)
+mesh = SubResource("ArrayMesh_d2xhg")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_181" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.5018, 0.125, -6.95165)
+mesh = SubResource("ArrayMesh_dw231")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_182" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.50182, 0.125, -6.95165)
+mesh = SubResource("ArrayMesh_hbi28")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_183" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.50182, 0.125, -6.95165)
+mesh = SubResource("ArrayMesh_mdylm")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_193" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.49818, 0.125, -6.95165)
+mesh = SubResource("ArrayMesh_u8va3")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_197" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.49818, 0.125, -6.95165)
+mesh = SubResource("ArrayMesh_u8va3")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_199" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.49818, 0.125, -6.95165)
+mesh = SubResource("ArrayMesh_u8va3")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_194" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.49818, 0.125, -6.95165)
+mesh = SubResource("ArrayMesh_q2qxj")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_195" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.49818, 0.125, -6.95165)
+mesh = SubResource("ArrayMesh_vhlgs")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_196" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.49818, 0.125, -6.95165)
+mesh = SubResource("ArrayMesh_df3gv")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_198" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.49818, 0.125, -6.95165)
+mesh = SubResource("ArrayMesh_uf6hv")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_211" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.49818, 0.125, -6.95165)
+mesh = SubResource("ArrayMesh_hjlyn")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_240" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -12.5018, 0.125, -6.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_056" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.50182, 0.125, 9.04835)
+mesh = SubResource("ArrayMesh_se3qy")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_153" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.50182, 0.125, 9.04835)
+mesh = SubResource("ArrayMesh_46aml")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_176" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.50182, 0.125, 9.04835)
+mesh = SubResource("ArrayMesh_4f3cy")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_179" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.50182, 0.125, 9.04835)
+mesh = SubResource("ArrayMesh_a6xc4")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_184" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.50182, 0.125, 9.04835)
+mesh = SubResource("ArrayMesh_xqwdu")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_185" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.5018, 0.125, 9.04835)
+mesh = SubResource("ArrayMesh_d2xhg")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_187" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.50182, 0.125, 9.04835)
+mesh = SubResource("ArrayMesh_hbi28")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_188" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.50182, 0.125, 9.04835)
+mesh = SubResource("ArrayMesh_mdylm")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_189" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.50182, 0.125, 9.04835)
+mesh = SubResource("ArrayMesh_hbi28")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_190" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.50182, 0.125, 9.04835)
+mesh = SubResource("ArrayMesh_mdylm")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_201" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.49818, 0.125, 9.04835)
+mesh = SubResource("ArrayMesh_u8va3")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_202" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.49818, 0.125, 9.04835)
+mesh = SubResource("ArrayMesh_u8va3")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_203" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.49818, 0.125, 9.04835)
+mesh = SubResource("ArrayMesh_u8va3")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_204" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.49818, 0.125, 9.04835)
+mesh = SubResource("ArrayMesh_q2qxj")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_205" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.49818, 0.125, 9.04835)
+mesh = SubResource("ArrayMesh_q2qxj")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_206" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.49818, 0.125, 9.04835)
+mesh = SubResource("ArrayMesh_df3gv")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_250" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -12.5018, 0.125, 9.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_257" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -11.5018, 0.125, 9.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_241" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -12.5018, 0.125, -5.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_242" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -12.5018, 0.125, -4.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_243" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -12.5018, 0.125, -2.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_244" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -12.5018, 0.125, -1.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_245" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -12.5018, 0.125, -0.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_246" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -12.5018, 0.125, 0.0483501)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_247" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -12.5018, 0.125, 1.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_248" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -12.5018, 0.125, 2.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_249" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -12.5018, 0.125, 3.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_270" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -10.5018, 0.125, 6.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_271" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -10.5018, 0.125, 7.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_272" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -10.5018, 0.125, 8.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_273" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -9.5018, 0.125, 2.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_274" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -9.5018, 0.125, 3.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_275" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -9.5018, 0.125, 4.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_276" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -9.5018, 0.125, 5.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_277" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -9.5018, 0.125, 6.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_278" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -9.5018, 0.125, 7.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_279" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -9.5018, 0.125, 8.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_280" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -8.5018, 0.125, 2.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_281" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -8.5018, 0.125, 3.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_282" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -8.5018, 0.125, 4.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_283" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -8.5018, 0.125, 5.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_284" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -8.5018, 0.125, 6.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_285" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -8.5018, 0.125, 7.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_286" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -8.5018, 0.125, 8.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_287" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -7.5018, 0.125, 2.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_288" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -7.5018, 0.125, 3.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_289" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -7.5018, 0.125, 4.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_290" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -7.5018, 0.125, 5.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_291" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -7.5018, 0.125, 6.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_292" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -7.5018, 0.125, 7.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_293" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -7.5018, 0.125, 8.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_294" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -6.5018, 0.125, 2.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_295" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -6.5018, 0.125, 3.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_300" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -6.5018, 0.125, 8.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_315" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -3.5018, 0.125, 2.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_316" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -3.5018, 0.125, 3.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_321" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -3.5018, 0.125, 8.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_322" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -2.5018, 0.125, 2.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_323" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -2.5018, 0.125, 3.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_324" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -2.5018, 0.125, 4.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_325" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -2.5018, 0.125, 5.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_327" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -2.5018, 0.125, 7.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_328" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -2.5018, 0.125, 8.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_329" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -1.5018, 0.125, 2.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_330" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -1.5018, 0.125, 3.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_331" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -1.5018, 0.125, 4.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_332" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -1.5018, 0.125, 5.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_334" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -1.5018, 0.125, 7.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_335" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -1.5018, 0.125, 8.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_336" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -0.501801, 0.125, 2.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_337" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -0.501801, 0.125, 3.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_338" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -0.501801, 0.125, 4.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_339" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -0.501801, 0.125, 5.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_343" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0.498199, 0.125, 2.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_344" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0.498199, 0.125, 3.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_345" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0.498199, 0.125, 4.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_346" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0.498199, 0.125, 5.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_350" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 1.4982, 0.125, 2.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_351" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 1.4982, 0.125, 3.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_352" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 1.4982, 0.125, 4.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_353" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 1.4982, 0.125, 5.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_354" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 1.4982, 0.125, 6.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_357" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 2.4982, 0.125, 2.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_358" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 2.4982, 0.125, 3.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_359" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 2.4982, 0.125, 4.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_360" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 2.4982, 0.125, 5.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_361" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 2.4982, 0.125, 6.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_364" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 3.4982, 0.125, 2.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_365" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 3.4982, 0.125, 3.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_366" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 3.4982, 0.125, 4.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_367" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 3.4982, 0.125, 5.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_368" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 3.4982, 0.125, 6.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_369" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 3.4982, 0.125, 7.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_370" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 3.4982, 0.125, 8.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_378" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 5.4982, 0.125, 2.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_379" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 5.4982, 0.125, 3.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_380" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 5.4982, 0.125, 4.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_381" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 5.4982, 0.125, 5.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_382" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 5.4982, 0.125, 6.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_383" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 5.4982, 0.125, 7.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_384" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 5.4982, 0.125, 8.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_385" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 6.4982, 0.125, 2.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_386" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 6.4982, 0.125, 3.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_387" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 6.4982, 0.125, 4.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_388" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 6.4982, 0.125, 5.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_389" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 6.4982, 0.125, 6.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_390" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 6.4982, 0.125, 7.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_391" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 6.4982, 0.125, 8.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_392" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 7.4982, 0.125, 2.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_393" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 7.4982, 0.125, 3.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_394" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 7.4982, 0.125, 4.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_395" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 7.4982, 0.125, 5.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_401" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -9.5018, 0.125, 0.0483504)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_405" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -8.5018, 0.125, 0.0483504)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_409" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -7.5018, 0.125, 0.0483504)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_412" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -6.5018, 0.125, -0.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_413" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -6.5018, 0.125, 0.0483504)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_423" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -3.5018, 0.125, -1.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_414" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -6.5018, 0.125, -2.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_484" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -3.5018, 0.125, -2.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_415" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -6.5018, 0.125, -3.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_485" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -3.5018, 0.125, -3.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_424" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -3.5018, 0.125, -0.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_425" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -3.5018, 0.125, 0.0483504)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_426" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -3.5018, 0.125, 1.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_427" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -2.5018, 0.125, -1.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_428" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -2.5018, 0.125, -0.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_429" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -2.5018, 0.125, 0.0483504)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_430" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -2.5018, 0.125, 1.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_431" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -1.5018, 0.125, -1.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_432" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -1.5018, 0.125, -0.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_433" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -1.5018, 0.125, 0.0483504)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_434" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -1.5018, 0.125, 1.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_435" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -0.501801, 0.125, -1.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_436" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -0.501801, 0.125, -0.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_437" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -0.501801, 0.125, 0.0483504)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_438" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -0.501801, 0.125, 1.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_455" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 4.4982, 0.125, -1.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_459" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 5.4982, 0.125, -1.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_460" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 5.4982, 0.125, -0.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_462" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 5.4982, 0.125, 1.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_463" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 6.4982, 0.125, -1.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_464" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 6.4982, 0.125, -0.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_466" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 6.4982, 0.125, 1.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_467" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 7.4982, 0.125, -1.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_468" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 7.4982, 0.125, -0.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_470" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 7.4982, 0.125, 1.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_471" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -9.5018, 0.125, -5.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_473" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -9.5018, 0.125, -3.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_475" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -8.5018, 0.125, -5.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_477" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -8.5018, 0.125, -3.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_546" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -10.5018, 0.125, -1.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_547" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -10.5018, 0.125, -0.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_548" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -10.5018, 0.125, 0.0483504)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_551" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -10.5018, 0.125, -3.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_552" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -10.5018, 0.125, -2.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_479" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -7.5018, 0.125, -5.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_481" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -7.5018, 0.125, -3.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_483" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -6.5018, 0.125, -5.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_495" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -3.5018, 0.125, -5.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_499" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -2.5018, 0.125, -5.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_501" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -2.5018, 0.125, -3.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_502" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -2.5018, 0.125, -2.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_503" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -1.5018, 0.125, -5.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_505" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -1.5018, 0.125, -3.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_506" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -1.5018, 0.125, -2.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_507" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -0.501801, 0.125, -5.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_509" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -0.501801, 0.125, -3.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_510" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -0.501801, 0.125, -2.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_511" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0.498199, 0.125, -5.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_515" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 1.4982, 0.125, -5.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_516" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 1.4982, 0.125, -4.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_517" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0.498199, 0.125, 1.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_519" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 2.4982, 0.125, -5.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_520" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 2.4982, 0.125, -4.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_521" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 2.4982, 0.125, -3.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_523" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 3.4982, 0.125, -5.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_524" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 3.4982, 0.125, -4.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_525" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 3.4982, 0.125, -3.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_527" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 4.4982, 0.125, -5.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_528" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 4.4982, 0.125, -4.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_529" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 4.4982, 0.125, -3.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_530" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 4.4982, 0.125, -2.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_531" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 5.4982, 0.125, -5.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_532" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 5.4982, 0.125, -4.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_533" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 5.4982, 0.125, -3.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_534" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 5.4982, 0.125, -2.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_535" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 6.4982, 0.125, -5.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_536" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 6.4982, 0.125, -4.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_537" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 6.4982, 0.125, -3.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_538" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 6.4982, 0.125, -2.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_539" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 7.4982, 0.125, -5.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_540" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 7.4982, 0.125, -4.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_541" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 7.4982, 0.125, -3.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_542" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 7.4982, 0.125, -2.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_396" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 7.4982, 0.125, 6.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_397" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 7.4982, 0.125, 7.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_398" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 7.4982, 0.125, 8.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_251" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 8.4982, 0.125, -5.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_252" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 8.4982, 0.125, -4.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_253" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 8.4982, 0.125, -3.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_254" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 8.4982, 0.125, -2.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_255" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 8.4982, 0.125, -1.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_256" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 8.4982, 0.125, -0.95165)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_258" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 8.4982, 0.125, 1.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_259" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 8.4982, 0.125, 2.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_260" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 8.4982, 0.125, 3.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_261" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 8.4982, 0.125, 4.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_262" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 8.4982, 0.125, 5.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_263" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 8.4982, 0.125, 6.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_264" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 8.4982, 0.125, 7.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
+[node name="Tile_265" type="MeshInstance3D" parent="Environment/Block4/Tiles"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 8.4982, 0.125, 8.04835)
+mesh = SubResource("ArrayMesh_60t22")
+skeleton = NodePath("")
+script = ExtResource("2_sh3h0")
+_highlight_mesh = ExtResource("10_sfsar")
+
 [node name="Combatant" type="Node3D" parent="."]
 
 [node name="BaseManager" type="Node3D" parent="."]
@@ -11167,7 +14567,7 @@ script = ExtResource("11_l1toc")
 
 [node name="Base" parent="BaseManager" instance=ExtResource("12_l1jnd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.46667, 0, 5.5)
-health = 1
+health = 5
 canMove = true
 moveBufferTime = 30.0
 
@@ -11178,6 +14578,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.4, 0, 5.5)
 
 [node name="BaseMarker2" parent="BaseManager/Markers" instance=ExtResource("14_d4lf1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.4, 0, -4.5)
+
+[node name="BaseMarker3" parent="BaseManager/Markers" instance=ExtResource("14_d4lf1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.4, 0, 6)
+
+[node name="BaseMarker4" parent="BaseManager/Markers" instance=ExtResource("14_d4lf1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.9, 0, 19)
+
+[node name="BaseMarker5" parent="BaseManager/Markers" instance=ExtResource("14_d4lf1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.4, 0, 25)
 
 [node name="MobManager" type="Node3D" parent="." node_paths=PackedStringArray("waveMobHolder")]
 script = ExtResource("12_ofg07")

@@ -11,6 +11,10 @@ func _ready():
 	GameManager.astarHandler = self
 	gridmap.hide()
 	
+	generate_map()
+
+
+func generate_map():
 	astar = AStar2D.new()
 	var cells = gridmap.get_used_cells()
 	for cell in cells:
@@ -34,8 +38,15 @@ func _ready():
 					if !astar.are_points_connected(index1, index2):
 						astar.connect_points(index1, index2)
 
+
 func v2_to_index(v2: Vector2):
 	return StringName(str(int(round(v2.x))) + "," + str(int(round(v2.y))))
+
+func global_position_to_map(pos:Vector3) -> Vector3i:
+	return gridmap.local_to_map(gridmap.to_local(pos))
+
+func add_path_to_grid(pos:Vector3):
+	gridmap.set_cell_item(global_position_to_map(pos), 1)
 
 func GetPath(start: Vector3, end: Vector3) -> PackedVector2Array:
 	#var start_vec2 := Vector2(gridmap.local_to_map(start).x, gridmap.local_to_map(start).z)
@@ -62,6 +73,4 @@ func GetPath(start: Vector3, end: Vector3) -> PackedVector2Array:
 	return path
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+

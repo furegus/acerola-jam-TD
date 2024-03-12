@@ -33,6 +33,8 @@ func _process(delta):
 func _on_button_up():
 	Engine.time_scale = 1
 	SignalManager.combatant_placement_end.emit()
+	MusicManager.DisableBandpass()
+	
 
 func _on_button_down():
 	if !class_ID:
@@ -41,6 +43,8 @@ func _on_button_down():
 	var comb : Node3D = _combatant.instantiate()
 	comb.class_ID = class_ID
 	SignalManager.combatant_placement_start.emit(comb)
+	MusicManager.EnableBandpass()
+	
 
 
 func _on_mouse_entered():

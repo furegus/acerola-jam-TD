@@ -4,8 +4,8 @@ var sat : float
 var vignet : float
 # Called when the node enters the scene tree for the first time.
 
-func _enter_tree():
-	SignalManager.show_game_over.connect(gameFinish)
+#func _enter_tree():
+	#SignalManager.show_game_over.connect(gameFinish)
 
 func _ready():
 	sat = $Desat.material.get("shader_parameter/blur_amount")

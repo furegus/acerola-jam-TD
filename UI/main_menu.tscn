@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://cky52ce4gubdg"]
+[gd_scene load_steps=4 format=3 uid="uid://cky52ce4gubdg"]
 
 [ext_resource type="FontFile" uid="uid://qbcejxbpnuct" path="res://Assets/Fonts/Inter/Inter-Black.ttf" id="1_bug35"]
 [ext_resource type="Script" path="res://UI/main_menu.gd" id="1_ubhyy"]
+[ext_resource type="FontFile" uid="uid://dfksk3frcy70x" path="res://Assets/Fonts/Audiowide/Audiowide-Regular.ttf" id="2_q3f7g"]
 
 [node name="Main Menu" type="Control"]
 process_mode = 3
@@ -29,9 +30,9 @@ alignment = 1
 
 [node name="Label" type="Label" parent="VBoxContainer"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("1_bug35")
-theme_override_font_sizes/font_size = 80
-text = "WAVE 33"
+theme_override_fonts/font = ExtResource("2_q3f7g")
+theme_override_font_sizes/font_size = 72
+text = "WAVE 13"
 horizontal_alignment = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]

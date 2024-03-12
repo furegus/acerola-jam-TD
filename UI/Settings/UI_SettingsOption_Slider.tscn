@@ -1,0 +1,111 @@
+[gd_scene load_steps=11 format=3 uid="uid://crmfqko3pykb3"]
+
+[ext_resource type="Script" path="res://UI/Settings/UI_SettingsOption_Slider.gd" id="1_5o3b1"]
+[ext_resource type="FontFile" uid="uid://8enl6filwn7w" path="res://Assets/Fonts/Inter/Inter-Regular.ttf" id="2_2pwng"]
+[ext_resource type="StyleBox" uid="uid://dkrrh2ihkic3u" path="res://UI/Settings/UI_Themes/UI_SettingsOption_Selected.tres" id="2_evtbk"]
+[ext_resource type="FontFile" uid="uid://lsrixbl248vw" path="res://Assets/Fonts/Inter/Inter-Bold.ttf" id="3_ebc1y"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3lwoc"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+
+[sub_resource type="Theme" id="Theme_yydjx"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_etgf1"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_pcr4i"]
+color = Color(0.176471, 0.176471, 0.176471, 1)
+grow_begin = 0.0
+grow_end = 0.0
+thickness = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jds0c"]
+bg_color = Color(0.873298, 0.873298, 0.873298, 1)
+border_width_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x8o6i"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 1
+
+[node name="SettingOption_Slider" type="Control"]
+custom_minimum_size = Vector2(275, 32.25)
+layout_mode = 3
+anchors_preset = 0
+offset_left = 48.0
+offset_top = 12.0
+offset_right = 731.0
+offset_bottom = 44.25
+size_flags_horizontal = 3
+focus_mode = 2
+script = ExtResource("1_5o3b1")
+value = 27.0
+FOCUSBUTTON = NodePath("MarginContainer/HBoxContainer/FPSHBoxContainer/Slider")
+
+[node name="ColorRect" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("2_evtbk")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("3_ebc1y")
+text = "Disable Head Bob"
+
+[node name="FPSHBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 3.0
+theme_override_constants/separation = 13
+alignment = 1
+
+[node name="NumLabel" type="LineEdit" parent="MarginContainer/HBoxContainer/FPSHBoxContainer"]
+custom_minimum_size = Vector2(41.25, 0)
+layout_mode = 2
+focus_mode = 1
+theme_override_constants/minimum_character_width = 3
+theme_override_fonts/font = ExtResource("2_2pwng")
+theme_override_styles/normal = SubResource("StyleBoxFlat_3lwoc")
+text = "27"
+alignment = 1
+max_length = 4
+select_all_on_focus = true
+caret_blink = true
+
+[node name="Slider" type="HSlider" parent="MarginContainer/HBoxContainer/FPSHBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+focus_mode = 0
+theme = SubResource("Theme_yydjx")
+theme_override_icons/grabber = SubResource("ImageTexture_etgf1")
+theme_override_icons/grabber_highlight = SubResource("ImageTexture_etgf1")
+theme_override_icons/grabber_disabled = SubResource("ImageTexture_etgf1")
+theme_override_styles/slider = SubResource("StyleBoxLine_pcr4i")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_jds0c")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_x8o6i")
+value = 27.0
+
+[connection signal="text_submitted" from="MarginContainer/HBoxContainer/FPSHBoxContainer/NumLabel" to="." method="_on_num_label_text_submitted"]
+[connection signal="value_changed" from="MarginContainer/HBoxContainer/FPSHBoxContainer/Slider" to="." method="_on_slider_value_changed"]

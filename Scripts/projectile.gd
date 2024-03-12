@@ -10,7 +10,11 @@ var shootRange : float = 10
 var isHit : bool = false
 
 var startPosition: Vector3
-var isShot : bool = false
+var isShot : bool = false:
+	set(v):
+		if !isShot && v:
+			$AudioStreamPlayer.play()
+		isShot = v
 
 var targetDirection : Vector3
 # Called when the node enters the scene tree for the first time.

@@ -9,6 +9,7 @@ signal update_mob_count
 signal update_base
 
 signal update_coins
+signal update_base_health
 signal wave_started
 signal wave_changed
 signal wave_timer_changed

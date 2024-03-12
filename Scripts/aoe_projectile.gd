@@ -62,6 +62,8 @@ func hit_target(_body):
 	if isHit:
 		return
 	
+	$AudioStreamPlayer.play()
+	
 	isHit = true
 	var attackObj = Attack.new()
 	attackObj.damage = damage

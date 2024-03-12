@@ -37,3 +37,5 @@ func _on_resume_pressed():
 	paused(false)
 
 
+func _on_quit_pressed():
+	get_tree().quit()

@@ -93,16 +93,16 @@ func IntersectionCheck(forceTrue : bool = false):
 			isTileOccupied = forceTrue
 	
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
 func AssignCombatant(combatant):
+	if !is_instance_valid(combatant):
+		combatant = null
+		return
 	tiledObject = combatant
 	isTileOccupied = true
 	combatant.OnField(self)
 
 func AreaMouseEnter():
+	print(GameManager.pan_camera)
 	if !is_instance_valid(GameManager.pan_camera):
 		return
 		
@@ -115,7 +115,7 @@ func AreaMouseEnter():
 func AreaMouseExit():
 	isMouseInside = false
 	
-	if !isTileOccupied:
+	if !isTileOccupied && is_instance_valid(GameManager.pan_camera):
 		GameManager.pan_camera.dragPosOverride = false
 	#highlightMesh.hide()
 
@@ -136,3 +136,8 @@ func EndHighlightTile():
 	highlightMesh.hide()
 	if isMouseInside:
 		AssignCombatant(GameManager.pan_camera.pickedCombatant)
+
+func destroy_tile():
+	if (isTileOccupied):
+		tiledObject.queue_free()
+	queue_free()

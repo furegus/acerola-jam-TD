@@ -1,7 +1,8 @@
-[gd_scene load_steps=17 format=3 uid="uid://cclatvcd7jfuo"]
+[gd_scene load_steps=18 format=3 uid="uid://cclatvcd7jfuo"]
 
 [ext_resource type="PackedScene" uid="uid://cdr8y2i1itx1" path="res://Scenes/projectile.tscn" id="1_6s5ps"]
 [ext_resource type="Script" path="res://Scripts/aoe_projectile.gd" id="2_h2xtn"]
+[ext_resource type="AudioStream" uid="uid://bn64norc1g33l" path="res://Assets/sfx/Magic_Spells_Impact_Water_High03.wav" id="3_aiysy"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_5s477"]
 radius = 2.0
@@ -113,3 +114,7 @@ randomness = 1.0
 visibility_aabb = AABB(-3, -3.2, -4, 6, 6.4, 8)
 process_material = SubResource("ParticleProcessMaterial_pjlw2")
 draw_pass_1 = SubResource("SphereMesh_ddrqw")
+
+[node name="AudioStreamPlayer" parent="." index="6"]
+stream = ExtResource("3_aiysy")
+volume_db = -20.0

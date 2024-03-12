@@ -36,6 +36,9 @@ func _physics_process(delta):
 	if !is_instance_valid(tile):
 		return
 	
+	if !GameManager.isGameTimeRunning:
+		return
+	
 	var brozure = null
 	if attackRangeArea.has_overlapping_bodies():
 		brozure = get_closest_area()
@@ -45,7 +48,10 @@ func _physics_process(delta):
 func ability_main(target : Node3D = null):
 	var loc = null
 	if target && target.isWorking:
+		if mainAbility.can_execute():
+			$AnimationPlayer.play("attack")
 		loc = target.global_position
+	
 	# create a execute function on the abilities which will perform it
 	mainAbility.execute(self, loc)
 
@@ -58,6 +64,8 @@ func OnField(_tile: Tile):
 	tile = _tile
 	rangeDebug.hide()
 	GameManager.map.use_coins(class_ID.cost)
+	class_ID.cost += int(float(class_ID.cost)/19.0)
+	$Coin.play()
 
 func OffField():
 	$CollisionShape3D.disabled = true

@@ -2,7 +2,6 @@ extends Node3D
 class_name Spawner
 
 @export var disabled : bool = false
-@export var activationWave : int = 1
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -11,5 +10,7 @@ func _ready():
 	SignalManager.add_spawner_to_list.emit(self)
 
 func enable():
+	show()
 	disabled = false
 	SignalManager.add_spawner_to_list.emit(self)
+

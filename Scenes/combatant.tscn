@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://4m3012qcw12n"]
+[gd_scene load_steps=12 format=3 uid="uid://4m3012qcw12n"]
 
 [ext_resource type="Script" path="res://Scripts/combatant.gd" id="1_i776r"]
 [ext_resource type="Resource" uid="uid://tyc5d36b3lca" path="res://Scenes/Combatants/sniper.tres" id="2_dlxa5"]
-[ext_resource type="Texture2D" uid="uid://dimk7j76n3a0y" path="res://Assets/2d/test/alienBeige.png" id="3_ooaif"]
+[ext_resource type="Texture2D" uid="uid://bp5m1cje2ty3c" path="res://Assets/2d/sus1.png" id="3_vyhf1"]
+[ext_resource type="AudioStream" uid="uid://duoigku60d6s3" path="res://Assets/sfx/Cash&Coins15.wav" id="4_xvbhw"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1m4ip"]
 radius = 0.4
@@ -22,6 +23,43 @@ albedo_color = Color(0.352941, 0.352941, 0.352941, 0.615686)
 radius = 3.0
 height = 6.0
 
+[sub_resource type="Animation" id="Animation_3wyco"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite3D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_gkv1o"]
+resource_name = "attack"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite3D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(1.2, 0.8, 1), Vector3(0.8, 1.3, 1), Vector3(1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_avgjm"]
+_data = {
+"RESET": SubResource("Animation_3wyco"),
+"attack": SubResource("Animation_gkv1o")
+}
+
 [node name="Combatant" type="CharacterBody3D"]
 collision_layer = 2
 script = ExtResource("1_i776r")
@@ -38,10 +76,11 @@ class_ID = ExtResource("2_dlxa5")
 [node name="Sprite3D" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 2.23517e-08, 0)
 cast_shadow = 0
-offset = Vector2(0, 43.33)
+offset = Vector2(0, 300)
+pixel_size = 0.001
 billboard = 1
 no_depth_test = true
-texture = ExtResource("3_ooaif")
+texture = ExtResource("3_vyhf1")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
@@ -56,6 +95,7 @@ mesh = SubResource("SphereMesh_85peb")
 [node name="AttackRange" type="Area3D" parent="."]
 collision_layer = 0
 collision_mask = 4
+input_ray_pickable = false
 monitorable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="AttackRange"]
@@ -63,6 +103,16 @@ monitorable = false
 [node name="RangeDebug" type="MeshInstance3D" parent="."]
 material_override = SubResource("StandardMaterial3D_wtg2m")
 mesh = SubResource("SphereMesh_o4qpt")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_avgjm")
+}
+
+[node name="Coin" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_xvbhw")
+volume_db = -10.0
+bus = &"SFX"
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

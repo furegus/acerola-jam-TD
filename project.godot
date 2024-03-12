@@ -29,6 +29,7 @@ config/icon="res://icon.svg"
 
 GameManager="*res://Managers/game_manager.gd"
 SignalManager="*res://Managers/signal_manager.gd"
+MusicManager="*res://Managers/MusicManager.gd"
 
 [display]
 
