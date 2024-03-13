@@ -1,7 +1,7 @@
 extends Node
 
 const MUSIC_TRACK_DEFAULT := [preload("res://Assets/sfx/Free Funny Type Beat  PerVersion 3  Funny HipHop Beat 2022.mp3")]
-const VOLUME_DEFAULT : float = -15.0
+const VOLUME_DEFAULT : float = -20.0
 
 var music_track = MUSIC_TRACK_DEFAULT
 var volume := VOLUME_DEFAULT

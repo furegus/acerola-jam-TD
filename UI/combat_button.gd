@@ -20,6 +20,7 @@ var toolTipInstance : Panel
 func _ready():
 	if !class_ID:
 		return
+	class_ID = class_ID.duplicate()
 	icon = class_ID.sprite
 	#$TextureRect.texture = class_ID.sprite
 	
